@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:strip="">
+<head py:match="head" py:attrs="select('@*')">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="${response.charset}" />
+  <title py:if="False">Your generic title goes here</title>
+  <meta py:replace="select('*')"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/bootstrap.min.css')}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/bootstrap-responsive.min.css')}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/style.css')}" />
+
+
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    
+<!-- Temporarily ABANDONING JQueryMObile support because it screws up EasyCrudRestController/sprox generated formz
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
+  <script type="text/javascript" src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+  <script type="text/javascript">$( document ).on( "pageinit", "#demo-page", function() {
+      $( document ).on( "swipeleft swiperight", "#demo-page", function( e ) {
+          // We check if there is no open panel on the page because otherwise
+          // a swipe to close the left panel would also open the right panel (and v.v.).
+          // We do this by checking the data that the framework stores on the page element (panel: open).
+          if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+              if ( e.type === "swiperight" ) {
+                  $( "#left-panel" ).panel( "open" );
+              }
+          }
+      });
+  });
+</script>
+-->
+<!--Define python constants-->
+<?python
+
+# Populate default drawer options. I have to check if the variable is even defined using this little trick.
+# TODO - TEMPORARILY REMOVING DRAWEROPTIONS UNTIL JQUERYMOBILE IS WORKING AGAIN
+#if not 'drawerOptions' in locals() or len(drawerOptions) == 0:
+#    drawerOptions = ['Organize', 'Friends', 'Communities', 'Near Me', 'Favorites', 'Competition']
+
+# TODO delete this when jquery mobile is working again
+drawerOptions=[]
+?>
+</head>
+
+<body py:match="body" py:attrs="select('@*')">
+  <div data-url="demo-page" data-role="page" id="demo-page" data-theme="d" class="container">
+
+    <!-- Navbar -->
+    <div class="navbar" data-role="header">
+      <div class="navbar-inner">
+    
+    <!--built in TG nav bar (auth needs to be kept for TG)
+        <div class="container">
+          <a class="brand" href="#"><img src="${tg.url('/images/turbogears_logo.png')}" alt="TurboGears 2"/> ${getattr(tmpl_context, 'project_name', 'turbogears2')}</a>
+          <ul class="nav nav-pills">
+            <li class="${('', 'active')[defined('page') and page=='index']}"><a href="${tg.url('/')}">Welcome</a></li>
+            <li class="${('', 'active')[defined('page') and page=='about']}"><a href="${tg.url('/about')}">About</a></li>
+            <li class="${('', 'active')[defined('page') and page=='data']}"><a href="${tg.url('/data')}">Serving Data</a></li>
+            <li class="${('', 'active')[defined('page') and page=='environ']}"><a href="${tg.url('/environ')}">WSGI Environment</a></li>
+          </ul>
+          <ul class="nav pull-right" py:if="tg.auth_stack_enabled">
+            <li py:if="not request.identity"><a href="${tg.url('/login')}">Login</a></li>
+            <li py:if="request.identity"><a href="${tg.url('/logout_handler')}">Logout</a></li>
+            <li py:if="request.identity"><a href="${tg.url('/admin')}">Admin</a></li>
+          </ul>
+        </div>
+    -->
+      </div>
+          <!-- TODO UNCOMMENT WHEN JQUERY MOBILE WORKING AGAIN - hiding description and button
+          <h1>Swipe left or right</h1>
+    <a href="#left-panel" data-theme="d" data-icon="arrow-r" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-nodisc">Open left panel</a>  
+        -->
+    <!-- Flash messages -->
+    <py:with vars="flash=tg.flash_obj.render('flash', use_js=False)">
+    <div class="row"><div class="span8 offset2">
+    <div py:if="flash" py:replace="Markup(flash)" />
+    </div></div>
+    </py:with>
+  <!-- /header -->
+  <div data-role="content">
+</div>
+                <!-- TODO UNCOMMENT WHEN JQUERY MOBILE WORKING AGAIN
+  <div data-role="panel" id="left-panel" data-theme="b">
+    <ul data-role="listview" data-inset="true" py:for="options in drawerOptions">
+        <li><a href="#">${options}</a></li>
+    </ul>
+    <a href="#" data-rel="close" data-role="button" data-mini="true" data-inline="true" data-icon="delete" data-iconpos="right">Close</a> 
+  </div>
+  -->                 
+  <!-- /panel -->
+  
+
+    <!-- Main included content -->
+    <div py:replace="select('*|text()')"/>
+    <!-- Footer included from an external template -->
+    <footer class="footer hidden-tablet hidden-phone" data-role="footer">
+    <a class="pull-right" href="http://www.turbogears.org/2.2/"><img style="vertical-align:middle;" src="${tg.url('/images/under_the_hood_blue.png')}" alt="TurboGears 2" /></a>
+    <p>Copyright &copy; ${getattr(tmpl_context, 'project_name', 'GameOn')} ${h.current_year()}</p>
+    </footer>
+    
+    </div>
+  </div>
+
+</body>
+</html>
