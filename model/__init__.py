@@ -3,7 +3,6 @@
 
 from zope.sqlalchemy import ZopeTransactionExtension
 from sqlalchemy.orm import scoped_session, sessionmaker
-#from sqlalchemy import MetaData
 from base import DeclarativeBase
 
 # Global session manager: DBSession() returns the Thread-local
@@ -56,4 +55,4 @@ def init_model(engine):
 
 # Import your model modules here.
 
-from CrudSample import Genre, Movie
+from Events import Event

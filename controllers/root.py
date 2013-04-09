@@ -4,7 +4,7 @@
 from tg import expose, flash, require, url, lurl, request, redirect, tmpl_context
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from tgext.crud import EasyCrudRestController
-from example.model import DBSession, metadata, Movie
+from example.model import DBSession, metadata, Event
 
 from example.lib.base import BaseController
 from example.controllers.error import ErrorController
@@ -16,31 +16,46 @@ from sprox.fillerbase import TableFiller
 __all__ = ['RootController']
 
 # Sprox class definitions
-class MovieAddForm(AddRecordForm):
-    __model__ = Movie
-    __omit_fields__ = ['genre_id', 'movie_id']
-movie_add_form = MovieAddForm(DBSession)
 
-class MovieEditForm(EditableForm):
-    __model__ = Movie
-    __omit_fields__ = ['genre_id', 'movie_id']
-movie_edit_form = MovieEditForm(DBSession)
+# Omitted fields
+# Note: actions are removed... this should only be for an admin or for someone who manages an event...
+# which I haven't done yet.
+eventOmittedFields = ['event_id', 'created', '__actions__']
 
-class MovieTable(TableBase):
-    __model__ = Movie
-    __omit_fields__ = "genre_id"
-movie_table = MovieTable(DBSession)
+class EventAddForm(AddRecordForm):
+    __model__ = Event
+    __require_fields__ = ['title', 'location', 'is_invite_only', 'is_private', 'is_guestlist_private']
+    __omit_fields__ = eventOmittedFields
+    
+    # Left as examples:
+    #__field_order__ = ['user_name', 'email_address', 'display_name', 'password', 'verify_password']
+    #__base_validator__ = form_validator
+    #email_address          = TextField
+    #display_name           = TextField
+    #verify_password        = PasswordField('verify_password')
+event_add_form = EventAddForm(DBSession)
 
-class MovieTableFiller(TableFiller):
-    __model__ = Movie
-movie_table_filler = MovieTableFiller(DBSession)
+class EventEditForm(EditableForm):
+    __model__ = Event
+    __require_fields__ = ['title', 'location', 'is_invite_only', 'is_private', 'is_guestlist_private']
+    __omit_fields__ = eventOmittedFields
+event_edit_form = EventEditForm(DBSession)
 
-class MovieController(EasyCrudRestController):
-    model = Movie
-    table = movie_table
-    table_filler = movie_table_filler
-    new_form = movie_add_form
-    edit_form = movie_edit_form
+class EventTable(TableBase):
+    __model__ = Event
+    __omit_fields__ = eventOmittedFields
+event_table = EventTable(DBSession)
+
+class EventTableFiller(TableFiller):
+    __model__ = Event
+event_table_filler = EventTableFiller(DBSession)
+
+class EventController(EasyCrudRestController):
+    model = Event
+    table = event_table
+    table_filler = event_table_filler
+    new_form = event_add_form
+    edit_form = event_edit_form
 
 class RootController(BaseController):
     """
@@ -56,7 +71,7 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    movies = MovieController(DBSession)
+    events = EventController(DBSession)
     error = ErrorController()
 
     def _before(self, *args, **kw):
