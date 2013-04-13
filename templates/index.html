@@ -5,6 +5,37 @@
   <xi:include href="master.html" />
 
 <head>
+  <title>Welcome to GameOn!</title>
+</head>
+
+<body>
+  <div class="row">
+    <div class="span8 hidden-phone hidden-tablet">
+      <div class="hero-unit">
+        <h1>Welcome to GameOn</h1>
+        <p>Game events. Near you.</p>
+      </div>
+    </div>
+  </div>
+  
+
+  <h3>Upcoming Events</h3>
+  <div py:replace="tmpl_context.widget(value=currentEvents)"></div>
+
+  <h3>Past Events</h3>
+  <div py:replace="tmpl_context.widget(value=currentEvents)"></div>
+  
+</body>
+</html>
+
+<!--  sample code from sample
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <xi:include href="master.html" />
+
+<head>
   <title>Welcome to TurboGears 2.2, standing on the shoulders of giants, since 2007</title>
 </head>
 
@@ -52,3 +83,4 @@
   <div class="notice"> Thank you for choosing TurboGears.</div>
 </body>
 </html>
+-->

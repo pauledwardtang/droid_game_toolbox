@@ -51,6 +51,10 @@ class Event(DeclarativeBase):
     description = Column(Text, nullable=True)
     created = Column(DateTime, default=datetime.datetime.utcnow())
     location = Column(Text, nullable=True)
+    
+    #Event date
+    date = Column(DateTime, nullable=False)
+    
     #Event scheduling settings
     is_invite_only = Column(Integer, default=True)
  
