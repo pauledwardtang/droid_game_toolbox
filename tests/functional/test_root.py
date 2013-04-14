@@ -12,7 +12,7 @@ Please read http://pythonpaste.org/webtest/ for more information.
 """
 from nose.tools import assert_true
 
-from example.tests import TestController
+from gameon.tests import TestController
 
 
 class TestRootController(TestController):
@@ -55,3 +55,20 @@ class TestRootController(TestController):
         resp = self.app.get('/data.json?a=1&b=2')
         assert '"a": "1", "b": "2"' in resp, resp
 
+    def test_secc_with_manager(self):
+        """The manager can access the secure controller"""
+        # Note how authentication is forged:
+        environ = {'REMOTE_USER': 'manager'}
+        resp = self.app.get('/secc', extra_environ=environ, status=200)
+        assert 'Secure Controller here' in resp.body, resp.body
+
+    def test_secc_with_editor(self):
+        """The editor cannot access the secure controller"""
+        environ = {'REMOTE_USER': 'editor'}
+        self.app.get('/secc', extra_environ=environ, status=403)
+        # It's enough to know that authorization was denied with a 403 status
+
+    def test_secc_with_anonymous(self):
+        """Anonymous users must not access the secure controller"""
+        self.app.get('/secc', status=401)
+        # It's enough to know that authorization was denied with a 401 status

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""WSGI environment setup for example."""
+"""WSGI environment setup for GameOn."""
 
-from example.config.app_cfg import base_config
+from gameon.config.app_cfg import base_config
 
 __all__ = ['load_environment']
 

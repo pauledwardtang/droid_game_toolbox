@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""WebHelpers used in example."""
+"""WebHelpers used in GameOn."""
 
 from webhelpers import date, feedgenerator, html, number, misc, text
 from datetime import datetime

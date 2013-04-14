@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Setup the example application"""
+"""Setup the GameOn application"""
 
 import logging
 
-from example.config.environment import load_environment
+from gameon.config.environment import load_environment
 
 __all__ = ['setup_app']
 
@@ -13,7 +13,7 @@ from schema import setup_schema
 import bootstrap
 
 def setup_app(command, conf, vars):
-    """Place any commands to setup example here"""
+    """Place any commands to setup gameon here"""
     load_environment(conf.global_conf, conf.local_conf)
     setup_schema(command, conf, vars)
     bootstrap.bootstrap(command, conf, vars)

@@ -54,20 +54,11 @@ drawerOptions=[]
     
     <!-- built in TG nav bar (auth needs to be kept for TG) -->
         <div class="container">
-          <a class="brand" href="#"><img src="${tg.url('/images/turbogears_logo.png')}" alt="TurboGears 2"/> ${getattr(tmpl_context, 'GameOn', 'GameOn')}</a>
+          <a class="brand" href="#"><img src="${tg.url('/images/turbogears_logo.png')}" alt="TurboGears 2"/> ${getattr(tmpl_context, 'project_name', 'GameOn')}</a>
           <ul class="nav nav-pills">
             <li class="${('', 'active')[defined('page') and page=='home']}"><a href="${tg.url('/')}">Home</a></li>
             <li class="${('', 'active')[defined('page') and page=='about']}"><a href="${tg.url('/about')}">About</a></li>
           </ul>
-          
-          <!-- My attempt at getting wrapping to work 
-          <ul class="todo" style="white-space:nowrap">
-            <li style="display:inline"><a href="${tg.url('/')}">Home</a></li>
-            <li style="display:inline"><a href="${tg.url('/about')}">About</a></li>
-          </ul>
-           -->
-          
-          
           <ul class="nav pull-right" py:if="tg.auth_stack_enabled">
             <li py:if="not request.identity"><a href="${tg.url('/login')}">Login</a></li>
             <li py:if="request.identity"><a href="${tg.url('/logout_handler')}">Logout</a></li>
@@ -81,9 +72,9 @@ drawerOptions=[]
         -->
     <!-- Flash messages -->
     <py:with vars="flash=tg.flash_obj.render('flash', use_js=False)">
-    <div class="row"><div class="span8 offset2">
-    <div py:if="flash" py:replace="Markup(flash)" />
-    </div></div>
+      <div class="row"><div class="span8 offset2">
+        <div py:if="flash" py:replace="Markup(flash)" />
+      </div></div>
     </py:with>
   <!-- /header -->
   <div data-role="content">
@@ -106,9 +97,7 @@ drawerOptions=[]
     <a class="pull-right" href="http://www.turbogears.org/2.2/"><img style="vertical-align:middle;" src="${tg.url('/images/under_the_hood_blue.png')}" alt="TurboGears 2" /></a>
     <p>Copyright &copy; ${getattr(tmpl_context, 'GameOn', 'GameOn')} ${h.current_year()}</p>
     </footer>
-    
     </div>
   </div>
-
 </body>
 </html>

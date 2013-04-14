@@ -1,5 +1,5 @@
 #
-# example - TurboGears configuration
+# GameOn - TurboGears configuration
 #
 # The %(here)s variable will be replaced with the parent directory of this file
 #
@@ -21,10 +21,10 @@ port = 8080
 cookie_secret = ${app_instance_secret}
 
 [app:main]
-use = egg:example
+use = egg:GameOn
 full_stack = true
 cache_dir = %(here)s/data
-beaker.session.key = example
+beaker.session.key = gameon
 beaker.session.secret = ${app_instance_secret}
 app_instance_uuid = ${app_instance_uuid}
 
@@ -55,7 +55,7 @@ templating.genshi.method = xhtml
 # http://docs.python.org/lib/logging-config-fileformat.html
 
 [loggers]
-keys = root, example, sqlalchemy
+keys = root, gameon, sqlalchemy, auth
 
 [handlers]
 keys = console
@@ -68,10 +68,10 @@ keys = generic
 level = INFO
 handlers = console
 
-[logger_example]
+[logger_gameon]
 level = INFO
 handlers =
-qualname = example
+qualname = gameon
 
 [logger_sqlalchemy]
 level = WARN
@@ -80,6 +80,13 @@ qualname = sqlalchemy.engine
 # "level = INFO" logs SQL queries.
 # "level = DEBUG" logs SQL queries and results.
 # "level = WARN" logs neither.  (Recommended for production systems.)
+
+# A logger for authentication, identification and authorization
+# This is repoze.who:
+[logger_auth]
+level = WARN
+handlers =
+qualname = auth
 
 # If you create additional handlers, add them as a key to [handlers]
 [handler_console]

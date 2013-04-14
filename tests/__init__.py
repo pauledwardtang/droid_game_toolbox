@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Unit and functional test suite for example."""
+"""Unit and functional test suite for GameOn."""
 
 from os import path
 import sys
@@ -11,7 +11,7 @@ from routes import url_for
 from webtest import TestApp
 from nose.tools import eq_
 
-from example import model
+from gameon import model
 
 __all__ = ['setup_db', 'teardown_db', 'TestController', 'url_for']
 def setup_db():
@@ -29,12 +29,12 @@ class TestController(object):
     """
     Base functional test case for the controllers.
     
-    The example application instance (``self.app``) set up in this test 
+    The GameOn application instance (``self.app``) set up in this test 
     case (and descendants) has authentication disabled, so that developers can
     test the protected areas independently of the :mod:`repoze.who` plugins
     used initially. This way, authentication can be tested once and separately.
     
-    Check example.tests.functional.test_authentication for the repoze.who
+    Check gameon.tests.functional.test_authentication for the repoze.who
     integration tests.
     
     This is the officially supported way to test protected areas with

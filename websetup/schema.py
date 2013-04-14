@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-"""Setup the example application"""
+"""Setup the GameOn application"""
 
 import logging
 from tg import config
 import transaction
 
 def setup_schema(command, conf, vars):
-    """Place any commands to setup example here"""
+    """Place any commands to setup gameon here"""
     # Load the models
 
     # <websetup.websetup.schema.before.model.import>
-    from example import model
+    from gameon import model
     # <websetup.websetup.schema.after.model.import>
 
     

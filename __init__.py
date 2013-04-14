@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-"""The example package"""
+"""The GameOn package"""
