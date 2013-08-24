@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/parent"
+	android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout android:id="@+id/sessionRow" 
+	android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/etGameName">
+	<TextView
+		android:id="@+id/tvGameNameLabel"
+		android:text="Session/Game Name"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_weight="0"
+	/>
+	<EditText 
+		android:id="@+id/etGameName" 
+		android:layout_width="0dp" 
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
+		android:layout_toRightOf="@+id/tvGameNameLabel"
+	/>
+</LinearLayout>
+<LinearLayout android:id="@+id/row1" 
+	android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/sessionRow">
+	<EditText android:text="Player 1" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+	<Button android:text="Remove" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="removeOnClick"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/row2"
+	android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/row1">
+	<EditText android:text="Player 2" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+	<Button android:text="Remove" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="removeOnClick"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/row3"
+	android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/row2">
+	<EditText android:text="Player 3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+	<Button android:text="Remove" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="removeOnClick"/>
+</LinearLayout>
+<LinearLayout android:id="@+id/row4"
+	android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/row3">
+	<EditText android:text="Player 4" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+	<Button android:text="Remove" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="removeOnClick"/>/>
+</LinearLayout>
+<LinearLayout android:id="@+id/row5"
+	android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/row4">
+	<EditText android:text="Player 5" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+	<Button android:text="Remove" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="removeOnClick"/>
+</LinearLayout>
+	<Button 
+		android:text="Done"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_below="@+id/row5"
+		android:onClick="doneOnClick"
+	/>
+</RelativeLayout>
+<!-- Icons found at http://openiconlibrary.sourceforge.net/ -->
+<!--	
+  <LinearLayout 
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+<TextView
+android:text="Default Label Text"
+android:id="@+id/tvLabel"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+>
+</TextView>
+
+<EditText
+	android:text="Player 1"
+	android:id="@+id/editField"
+	android:layout_width="0dp"
+	android:layout_height="wrap_content"
+	android:layout_weight="1"
+>
+</EditText>
+<Button
+	android:text="Remove"
+	android:id="@+id/remove_btn"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content" 
+>
+</Button>
+
+<Button
+android:id="@+id/minus"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@drawable/minus"
+>
+</Button>
+<Button
+android:id="@+id/plus"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@drawable/plus" 
+>
+</Button>
+
+</LinearLayout>
+
+	-->
