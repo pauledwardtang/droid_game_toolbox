@@ -33,5 +33,10 @@ public interface Storable
 	 * @return if this Storable is valid
 	 */
 	public boolean isValid();
+
+	/**
+	 * @return the display name for this Storable
+	 */
+	public String getDisplayName();
 }
 

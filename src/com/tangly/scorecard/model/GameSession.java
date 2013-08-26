@@ -51,57 +51,11 @@ public class GameSession extends DefaultStorable
 			p.save(d);
 		}
 	}
-	
-//	public GameSession(Parcel in)
-//	{
-//		this.name = in.readString();
-//		this.players = new ArrayList<Player>();
-//		for (Player player : (Player[]) in.readParcelableArray(this.getClass().getClassLoader()))
-//		{
-//			players.add(player);
-//		}
-//	}
-		
-// this is used to regenerate the object
-//	public static final Parcelable.Creator<GameSession> CREATOR 
-//	= new Parcelable.Creator<GameSession>()
-//	{
-//		public GameSession createFromParcel(Parcel in)
-//		{
-//			return MainActivity.createGameSession(in);
-//		}
-//
-//		public GameSession[] newArray(int size)
-//		{
-//			return new GameSession[size];
-//		}
-//	};
-//		
-//	@Override
-//	public void writeToParcel(Parcel dest, int flags)
-//	{
-//		dest.writeString(this.name);
-//		
-//		Player[] playersArr = this.players.toArray(null);
-//		dest.writeParcelableArray(playersArr, 0);
-////		dest.writeArray(this.players);
-//	}
 
-//protected class DbStoreStrategy extends SimpleDatabaseStoreStrategy
-//{
-//	@Override
-//	public void commit(Storable s)
-//	{
-//		// TODO: Implement this method
-//	}
-//
-//	@Override
-//	public Storable retrieve(int id)
-//	{
-//		// uhhh maybe this shouldnt be in the STORE interface
-//		// TODO: Implement this method
-//		return null;
-//	}
-//}
+	/**
+	 * @see Storable.getDisplayName()
+	 */
+	public String getDisplayName() { return this.getName(); }
+	
 }
 

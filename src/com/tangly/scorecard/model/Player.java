@@ -36,31 +36,9 @@ public class Player extends DefaultStorable// implements SchemaDefinable
 	public int getScore() { return this.score; }
 	public void setScore(int score) { this.score = score; }
 
-//	public Player(Parcel in)
-//	{
-//		this(in.readString(), in.readInt());
-//	}
-		
-// this is used to regenerate the object
-//	public static final Parcelable.Creator<Player> CREATOR 
-//		= new Parcelable.Creator<Player>()
-//		{
-//		public Player createFromParcel(Parcel in)
-//		{
-//			return MainActivity.createPlayer(in);
-//		}
-//
-//		public Player[] newArray(int size)
-//		{
-//			return new Player[size];
-//		}
-//	};
-//
-//	@Override
-//	public void writeToParcel(Parcel dest, int flags)
-//	{
-//		dest.writeString(this.name);
-//		dest.writeInt(this.score);
-//	}
+	/**
+	 * @see Storable.getDisplayName()
+	 */
+	public String getDisplayName() { return this.getName(); }
 }
 
