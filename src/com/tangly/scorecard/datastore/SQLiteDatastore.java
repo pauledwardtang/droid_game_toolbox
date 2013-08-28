@@ -128,14 +128,11 @@ public class SQLiteDatastore extends SimpleDatastore
 	{
 		Log.d("Datastore", "Retrieving all: " + type.getName());
 		Collection<Storable> retrievedStorables = new ArrayList<Storable>();
-		
-		// TODO This is a hack, should have another interface to use
-		// to extract the SQL queries from??
-		// Retrieve from the database
-		
+
+		// Retrieve from the database		
 		if (type.getName().compareTo(Player.class.getName()) == 0)
 		{
-			// TODO we shouldn't be getting all players
+			retrievedStorables = PlayerDatabaseAdapter.getInstance().retrieveAll(this.db);
 		}
 		else if (type.getName().compareTo(GameSession.class.getName()) == 0)
 		{

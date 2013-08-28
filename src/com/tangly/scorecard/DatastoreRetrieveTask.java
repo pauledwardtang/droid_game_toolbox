@@ -1,11 +1,9 @@
 package com.tangly.scorecard;
 
 import android.os.*;
-import android.util.*;
 import android.widget.*;
 import com.tangly.scorecard.datastore.*;
 import com.tangly.scorecard.storage.*;
-import java.lang.ref.*;
 import java.util.*;
 
 /**
@@ -15,18 +13,18 @@ public class DatastoreRetrieveTask extends AsyncTask<String, Void, Collection<St
 {
  	private Datastore dsInstance;
 	private Class recordType;
-	private ArrayAdapter<? extends Storable> arrayAdapter;
+	private PostExecuteListener listener;
 
 	/**
 	 * @param ds The Datastore instance to use to retrieve results
 	 * @param recordType The record type to retrieve
 	 * @param results The reference to the collection that will be populated with the results of this Task
 	 */
- 	public DatastoreRetrieveTask(Datastore ds, Class recordType, ArrayAdapter<? extends Storable> adapter)
+ 	public DatastoreRetrieveTask(Datastore ds, Class recordType, PostExecuteListener listener)
 	{
 		this.dsInstance = ds;
 		this.recordType = recordType;
-		this.arrayAdapter = adapter;
+		this.listener = listener;
 	}
 
 	/** 
@@ -59,6 +57,12 @@ public class DatastoreRetrieveTask extends AsyncTask<String, Void, Collection<St
 	@Override
 	protected void onPostExecute(Collection<Storable> results)
 	{
-		this.arrayAdapter.addAll(results);
+		// Defer execution to the callback
+		this.listener.onPostExecute(results);
+	}
+	
+	public interface PostExecuteListener
+	{
+		public void onPostExecute(Collection<Storable> results);
 	}
 }

@@ -24,7 +24,7 @@ public class StorableArrayAdapter extends ArrayAdapter<Storable>
 	 * @param items The list for Storable items
 	 * @param inflater LayoutInflater to inflate the view
 	 * @param editListener The listener to bind to each edit button. If not specified, the callback will be used to create a listener that creates a new EditActivity
-	 * @param callback 
+	 * @param callback Callback function that will be used if no listener is defined
 	 */
 	public StorableArrayAdapter(Context context,
 								 int textViewResourceId,

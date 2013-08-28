@@ -6,7 +6,6 @@ import java.util.*;
 
 public class GameSession extends DefaultStorable
 {
-	private String name;
 	private List<Player> players;
 
 	public GameSession(String name,
@@ -51,11 +50,5 @@ public class GameSession extends DefaultStorable
 			p.save(d);
 		}
 	}
-
-	/**
-	 * @see Storable.getDisplayName()
-	 */
-	public String getDisplayName() { return this.getName(); }
-	
 }
 

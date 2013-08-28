@@ -77,7 +77,32 @@ public class PlayerDatabaseAdapter extends DefaultDatabaseAdapter implements Dat
 
 	public List<Storable> retrieveAll(SQLiteDatabase db)
 	{
-		throw new UnsupportedOperationException("Cannot retrieve all Players");
+		ArrayList<Storable> players = new ArrayList<Storable>();
+
+		// Lazy initialize the cursor factory
+		if (playerCursorFactory == null)
+		{
+			playerCursorFactory = new PlayerCursor.Factory();
+		}
+
+		String query = PlayerCursor.getPlayerSelectQuery();
+		PlayerCursor cursor =
+			(PlayerCursor) db.rawQueryWithFactory(playerCursorFactory,
+												  query,
+												  null,
+												  null);
+		// If the table isn't empty create the game sessions
+		if (cursor.getCount() > 0)
+		{
+			cursor.moveToFirst();
+			do
+			{
+				Log.d("SQLite", "Retrieve all: Found Player ID:" + cursor.getPlayerId());
+				players.add(cursor.getPlayer());
+			}
+			while(cursor.moveToNext());
+		}
+		return players;
 	}
 
 	public long insert(SQLiteDatabase db, Storable s)

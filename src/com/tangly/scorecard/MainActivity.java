@@ -21,6 +21,8 @@ public class MainActivity extends StorableListViewActivity
     public void onCreate(Bundle savedInstanceState)
 	{
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+
         Button editButton = (Button) findViewById(R.id.addGameBtn);
 		editButton.setOnClickListener(new OnClickListener(){
 			private DefaultEditStorableCallback callback = new DefaultEditStorableCallback(getApplicationContext(),
@@ -28,6 +30,14 @@ public class MainActivity extends StorableListViewActivity
 			public void onClick(View p1)
 			{
 				this.callback.editStorable(DatastoreDefs.INVALID_ID);
+			}
+		});
+
+		Button mngPlyrsBtn = (Button) findViewById(R.id.mngPlyrsBtn);
+		mngPlyrsBtn.setOnClickListener(new OnClickListener(){
+			public void onClick(View p1)
+			{
+				startActivity(new Intent(getApplicationContext(), ManagePlayersActivity.class));
 			}
 		});
     }

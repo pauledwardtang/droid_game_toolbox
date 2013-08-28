@@ -6,7 +6,7 @@ import android.database.*;
 
 public class PlayerCursor extends SQLiteCursor
 {
-	private static final String BASE_QUERY = "SELECT * FROM Player";
+	private static final String BASE_QUERY = "SELECT * FROM Player ";
 	
 	private PlayerCursor(SQLiteDatabase db,
 						 SQLiteCursorDriver driver,

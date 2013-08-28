@@ -3,9 +3,7 @@ package com.tangly.scorecard;
 import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.util.*;
 import android.view.*;
-import android.view.View.*;
 import android.widget.*;
 import com.tangly.scorecard.datastore.*;
 import com.tangly.scorecard.model.*;
@@ -13,16 +11,37 @@ import com.tangly.scorecard.storage.*;
 import java.util.*;
 
 public abstract class StorableListViewActivity extends Activity
+	implements DatastoreRetrieveTask.PostExecuteListener
 {
+	private StorableArrayAdapter adapter;
+	private Datastore datastore;
+	private ListView listView;
+	private List<Storable> items = new ArrayList<Storable>();
+
+	public List<Storable> getItems()
+	{
+		return this.items;
+	}
+
+	public Storable getItemById(Long id)
+	{
+		Storable retVal = null;
+		for (Storable s : this.items)
+		{
+			if (id.longValue() == s.getId())
+			{
+				retVal = s;
+				break;
+			}
+		}
+		return retVal;
+	}
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
 	{
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
-		// Handle initialization here
-		this.init();		
     }
 
 	/** Called when the activity is started. */
@@ -30,27 +49,48 @@ public abstract class StorableListViewActivity extends Activity
     public void onStart()
 	{
 		super.onStart();
+		
+		// Set the datastore first in case any of the templated functions need to use the datastore
+		this.datastore = DatastoreManager.getDatastore(getApplicationContext());
+
 		this.init();
 	}
 
 	protected void init()
 	{
 		// Hook up adapters
-		StorableArrayAdapter gsAdapter
-			= new StorableArrayAdapter(getApplicationContext(),
-									   this.getTextViewResourceId(),
-									   new ArrayList<Storable>(),
-									   (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
-									   this.getEditStorableOnClickListener(),
-									   this.getEditStorableCallback());
-
-		ListView listView = (ListView) findViewById(android.R.id.list);
-		listView.setAdapter(gsAdapter);
+		this.adapter = 
+			new StorableArrayAdapter(getApplicationContext(),
+									 this.getTextViewResourceId(),
+									 this.items,
+									 (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
+									 this.getEditStorableOnClickListener(),
+									 this.getEditStorableCallback());
+		this.listView = (ListView) findViewById(android.R.id.list);
+		this.listView.setAdapter(this.adapter);
 
 		// Populate the adapter
-		Datastore ds = DatastoreManager.getDatastore(getApplicationContext());
-		new DatastoreRetrieveTask(ds, this.getStorableType(), gsAdapter).execute();
+		new DatastoreRetrieveTask(this.datastore, this.getStorableType(), this).execute();
 	}
+
+	public void onPostExecute(Collection<Storable> results)
+	{
+		this.items.addAll(results);
+		this.adapter.notifyDataSetChanged();
+	}
+
+	// Should only be used for unit testing
+	protected void setDatastore(Datastore datastore) { this.datastore = datastore; }
+
+	/**
+	 * @return A datastore instance
+	 */
+	protected Datastore getDatastore() { return this.datastore; }
+
+	/**
+	 * @return The adapter used by this activity.
+	 */
+	public StorableArrayAdapter getAdapter() { return this.adapter; }
 
 	/**
 	 * Gets the storable on click listener. A return value of null indicates that a default on

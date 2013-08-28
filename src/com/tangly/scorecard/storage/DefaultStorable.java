@@ -9,6 +9,7 @@ import com.tangly.scorecard.datastore.*;
 public abstract class DefaultStorable implements Storable
 {
 	private long id = DatastoreDefs.INVALID_ID;
+	protected String name = "";
 
 	/**
 	 * @see Storable.getId
@@ -40,5 +41,15 @@ public abstract class DefaultStorable implements Storable
 	 * @see Storable.isValid
 	 */
 	public boolean isValid() { return id == DatastoreDefs.INVALID_ID; }
+
+	/**
+	 * @see Storable.getDisplayName
+	 */
+	public String getDisplayName() { return this.name; }
+	
+	/**
+	 * @see Storable.setDisplayName()
+	 */
+	public void setDisplayName(String name) { this.name = name; }
 }
 

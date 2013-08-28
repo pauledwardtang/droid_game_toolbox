@@ -63,7 +63,7 @@ public class NewGameSessionActivity extends Activity
 		Intent intent = getIntent();
 		if (intent != null)
 		{
-			long gs_id = intent.getLongExtra(IntentDefs.GS_ID, DatastoreDefs.INVALID_ID);
+			long gs_id = intent.getLongExtra(IntentDefs.STORABLE_ID, DatastoreDefs.INVALID_ID);
 			if (gs_id != DatastoreDefs.INVALID_ID)
 			{
 				this.session = (GameSession) this.datastore.get(gs_id, GameSession.class);

@@ -38,5 +38,10 @@ public interface Storable
 	 * @return the display name for this Storable
 	 */
 	public String getDisplayName();
+	
+	/**
+	 * Sets the display name for this Storable
+	 */
+	public void setDisplayName(String name);
 }
 

@@ -22,6 +22,8 @@
         </activity>
 		<activity android:name=".NewGameSessionActivity" />
 		<activity android:name=".ApplicationContextProvider" />
+		<activity android:name=".ManagePlayersActivity">
+		</activity>
 		
     </application>
 

@@ -26,7 +26,7 @@ public class DefaultEditStorableCallback implements EditStorableCallback
 		// Populate intent with game session details
 		if (id != DatastoreDefs.INVALID_ID)
 		{
-			intent.putExtra(IntentDefs.GS_ID, id);
+			intent.putExtra(IntentDefs.STORABLE_ID, id);
 		}
 		this.context.startActivity(intent);
 	}

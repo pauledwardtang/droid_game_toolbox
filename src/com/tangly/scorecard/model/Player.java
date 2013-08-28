@@ -6,7 +6,6 @@ import com.tangly.scorecard.storage.*;
 
 public class Player extends DefaultStorable// implements SchemaDefinable
 {
-	private String name;
 	private int score;
 
 	/**
@@ -31,14 +30,14 @@ public class Player extends DefaultStorable// implements SchemaDefinable
 		return retVal;
 	}
 
-	public String getName() { return this.name; }
-	public void setName(String name) { this.name = name; }
+	// Should be using "getDisplayName" now from Storable interface
+	@Deprecated
+	public String getName() { return this.getDisplayName(); }
+
+	// Should be using "getDisplayName" now from Storable interface
+	@Deprecated
+	public void setName(String name) { this.setDisplayName(name); }
 	public int getScore() { return this.score; }
 	public void setScore(int score) { this.score = score; }
-
-	/**
-	 * @see Storable.getDisplayName()
-	 */
-	public String getDisplayName() { return this.getName(); }
 }
 
