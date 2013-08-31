@@ -49,15 +49,14 @@ public abstract class StorableListViewActivity extends Activity
     public void onStart()
 	{
 		super.onStart();
-		
-		// Set the datastore first in case any of the templated functions need to use the datastore
-		this.datastore = DatastoreManager.getDatastore(getApplicationContext());
-
 		this.init();
 	}
 
 	protected void init()
 	{
+		// Set the datastore first in case any of the templated functions need to use the datastore
+		this.datastore = DatastoreManager.getDatastore(getApplicationContext());
+
 		// Hook up adapters
 		this.adapter = 
 			new StorableArrayAdapter(getApplicationContext(),
@@ -75,6 +74,7 @@ public abstract class StorableListViewActivity extends Activity
 
 	public void onPostExecute(Collection<Storable> results)
 	{
+		this.items.clear();
 		this.items.addAll(results);
 		this.adapter.notifyDataSetChanged();
 	}

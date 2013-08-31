@@ -1,12 +1,14 @@
 package com.tangly.framework.dialogs;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.view.*;
-import android.widget.*;
-import com.tangly.framework.dialogs.*;
-import com.tangly.scorecard.*;
+import com.tangly.scorecard.R;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 /**
  * Dialog fragment which displays a single edit text field
@@ -26,6 +28,8 @@ public class EditTextDialogFragment extends NoticeDialogFragment
 		this(DEFAULT_TITLE, "");
 	}
 
+	// TODO non-default constructors are highly discouraged since the restoring the state will use the empty args cstor
+        // TODO when this is fixed, remove the lint.xml
 	/**
 	 * Populates a default title and a text field with the given default text
 	 * @param defaultText The given default text with which to populate the text field

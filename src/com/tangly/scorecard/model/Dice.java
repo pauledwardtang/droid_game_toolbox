@@ -9,7 +9,6 @@ import java.util.*;
  */
 public class Dice extends DefaultStorable
 {
- 	private String name;
 	private static final int DEFAULT_NUM_SIDES = 6;
 	private static final String DEFAULT_NAME = "D6";
 	Map<Integer, String> dieResultMap;

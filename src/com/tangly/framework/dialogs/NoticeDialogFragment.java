@@ -1,6 +1,7 @@
 package com.tangly.framework.dialogs;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.*;
 
 public class NoticeDialogFragment extends DialogFragment

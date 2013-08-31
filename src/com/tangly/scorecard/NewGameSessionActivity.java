@@ -53,10 +53,6 @@ public class NewGameSessionActivity extends Activity
 		}
 	}
 
-	/**
-	 * TODO: Figure out what needs to created by default. Probably need to pull some 
-	 * persistant information from the internal database or some serialized info. 
-	 */
 	protected void init(Bundle savedInstanceState)
 	{
 		this.datastore = DatastoreManager.getDatastore(this.getApplicationContext());
@@ -68,10 +64,6 @@ public class NewGameSessionActivity extends Activity
 			{
 				this.session = (GameSession) this.datastore.get(gs_id, GameSession.class);
 			}
-		}
-		if (savedInstanceState != null)
-		{
-			// TODO extract information from bundle or from some other saved state...
 		}
 
 		if (this.session == null)

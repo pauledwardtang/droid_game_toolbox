@@ -15,13 +15,14 @@ public abstract class SimpleDatastore implements Datastore
 		simpleMap = new HashMap<Long, Storable>();
 	}
 
-	public void set(Collection<Storable> c)
+	@Override
+	public void set(Collection<? extends Storable> c)
 	{
 		c.clear();
 		this.add(c);
 	}
 
-	public void add(Collection<Storable> c)
+	public void add(Collection<? extends Storable> c)
 	{
 		for (Storable s : c)
 		{
@@ -38,14 +39,7 @@ public abstract class SimpleDatastore implements Datastore
 
 	public boolean has(long id)
 	{
-		try
-		{
-			return simpleMap.containsKey(id);
-		}
-		finally
-		{
-			return false;
-		}
+		return simpleMap.containsKey(id);
 		
 	}
 	public void remove(Storable s) { this.simpleMap.remove(s.getId()); }
