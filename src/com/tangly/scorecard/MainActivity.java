@@ -40,6 +40,13 @@ public class MainActivity extends StorableListViewActivity
 				startActivity(new Intent(getApplicationContext(), ManagePlayersActivity.class));
 			}
 		});
+		Button mngDiceBtn = (Button) findViewById(R.id.mngDiceBtn);
+		mngDiceBtn.setOnClickListener(new OnClickListener(){
+			public void onClick(View p1)
+			{
+				startActivity(new Intent(getApplicationContext(), ManageDiceActivity.class));
+			}
+		});
     }
 
 	/**

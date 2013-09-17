@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/parent"
+	android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout android:id="@+id/nameRow"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+		<TextView
+			android:id="@+id/tvLabel"
+			android:text="Dice Name"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_weight="0"
+		/>
+		<EditText 
+			android:id="@+id/editText" 
+			android:layout_width="0dp" 
+			android:layout_height="wrap_content" 
+			android:layout_weight="1"
+		/>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/numberPickerRow"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/nameRow">
+		<TextView
+			android:id="@+id/tvNumSidesLabel"
+			android:text="Number of sides"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_weight="0"
+		/>
+		<NumberPicker 
+			android:id="@+id/npNumSides" 
+			android:layout_width="0dp" 
+			android:layout_height="wrap_content" 
+			android:layout_weight="1"
+		/>
+	</LinearLayout>	
+</RelativeLayout>

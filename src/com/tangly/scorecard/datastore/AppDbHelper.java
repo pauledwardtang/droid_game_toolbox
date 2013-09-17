@@ -31,6 +31,7 @@ public class AppDbHelper extends SQLiteOpenHelper
 		List<String> createStatements = new ArrayList<String>();
 		createStatements.addAll(PlayerDatabaseAdapter.getInstance().getCreateStatements());
 		createStatements.addAll(GameSessionDatabaseAdapter.getInstance().getCreateStatements());
+		createStatements.addAll(DiceDatabaseAdapter.getInstance().getCreateStatements());
 		for (String sql: createStatements)
 		{
 			// TODO REMOVE
@@ -48,6 +49,7 @@ public class AppDbHelper extends SQLiteOpenHelper
 		List<String> deleteStatements = new ArrayList<String>();
 		deleteStatements.addAll(PlayerDatabaseAdapter.getInstance().getDeleteStatements());
 		deleteStatements.addAll(GameSessionDatabaseAdapter.getInstance().getDeleteStatements());
+		deleteStatements.addAll(DiceDatabaseAdapter.getInstance().getDeleteStatements());
 		for (String sql: deleteStatements)
 		{
 			db.execSQL(sql);

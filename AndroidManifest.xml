@@ -16,15 +16,12 @@
             android:name="com.tangly.scorecard.MainActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 		<activity android:name=".NewGameSessionActivity" />
 		<activity android:name=".ApplicationContextProvider" />
-		<activity android:name=".ManagePlayersActivity">
-		</activity>
-		
-    </application>
-
+		<activity android:name=".ManagePlayersActivity" />
+		<activity android:name=".ManageDiceActivity" />
+	</application>
 </manifest>

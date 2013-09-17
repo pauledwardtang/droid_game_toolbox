@@ -16,31 +16,27 @@ public class SQLiteDatastore extends SimpleDatastore
 {
 	private SQLiteOpenHelper helper;
 	private SQLiteDatabase db;
+	private Map<String, DatabaseAdapter> classAdapterMap;
+	private static String TAG = "Datastore";
 
 	public SQLiteDatastore(SQLiteOpenHelper h)
 	{
 		super();
 		helper = h;
 		db = h.getWritableDatabase();
+		
+		this.classAdapterMap = new HashMap<String, DatabaseAdapter>();
+		this.classAdapterMap.put(Player.class.getName(), PlayerDatabaseAdapter.getInstance());
+		this.classAdapterMap.put(GameSession.class.getName(), GameSessionDatabaseAdapter.getInstance());
+		this.classAdapterMap.put(Dice.class.getName(), DiceDatabaseAdapter.getInstance());
 	}
 		
 	@Override
 	public long store(Storable s)
 	{
 		long retVal = s.getId();
-		if (s instanceof Player)
-		{
-			if (s.getId() == DatastoreDefs.INVALID_ID)
-			{
-				// Return the new ID!
-				retVal = PlayerDatabaseAdapter.getInstance().insert(this.db, (Player) s);
-			}
-			else
-			{
-				PlayerDatabaseAdapter.getInstance().update(this.db, (Player) s);
-			}
-		}
-		
+		Class type = s.getClass();
+
 		if (s instanceof GameSession)
 		{
 			// Update the player IDs first so we can associate them with the GameSession
@@ -53,11 +49,11 @@ public class SQLiteDatastore extends SimpleDatastore
 			if (s.getId() == DatastoreDefs.INVALID_ID)
 			{
 				// Return the new ID!
-				retVal = GameSessionDatabaseAdapter.getInstance().insert(this.db, (GameSession) s);
+				retVal = this.getDbAdapter(type).insert(this.db, s);
 			}
 			else
 			{
-				GameSessionDatabaseAdapter.getInstance().update(this.db, (GameSession) s);
+				this.getDbAdapter(type).update(this.db, s);
 			}
 			for ( Player player : ((GameSession) s).getPlayers())
 			{
@@ -68,6 +64,18 @@ public class SQLiteDatastore extends SimpleDatastore
 
 			// Cache off the object
 			this.add(s);
+		}
+		else
+		{
+			if (s.getId() == DatastoreDefs.INVALID_ID)
+			{
+				// Return the new ID!
+				retVal = this.getDbAdapter(type).insert(this.db, s);
+			}
+			else
+			{
+				this.getDbAdapter(type).update(this.db, s);
+			}
 		}
 
 		return retVal;
@@ -96,19 +104,7 @@ public class SQLiteDatastore extends SimpleDatastore
 		else
 		{
 			// Retrieve from the database
-			Storable retrievedStorable = null;
-			
-			// TODO USE POLYMORPHISM
-			if (type.getName().compareTo(Player.class.getName()) == 0)
-			{
-				retrievedStorable = PlayerDatabaseAdapter.getInstance().retrieve(this.db, id);
-			}
-			
-			// TODO USE POLYMORPHISM
-			if (type.getName().compareTo(GameSession.class.getName()) == 0)
-			{
-				retrievedStorable = GameSessionDatabaseAdapter.getInstance().retrieve(this.db, id);
-			}
+			Storable retrievedStorable = this.getDbAdapter(type).retrieve(this.db,id);
 
 			// Update internal list if the storable was 
 			// retrieved from the database
@@ -119,6 +115,7 @@ public class SQLiteDatastore extends SimpleDatastore
 			else
 			{
 				// TODO LOG THIS!
+				Log.e(TAG, "Could not find storable: " + id);
 			}
 			return retrievedStorable;
 		}
@@ -126,18 +123,12 @@ public class SQLiteDatastore extends SimpleDatastore
 
 	public Collection<Storable> getAll(Class type)
 	{
-		Log.d("Datastore", "Retrieving all: " + type.getName());
-		Collection<Storable> retrievedStorables = new ArrayList<Storable>();
+		Log.d(TAG, "Retrieving all: " + type.getName());
+		Collection<Storable> retrievedStorables;
 
-		// Retrieve from the database		
-		if (type.getName().compareTo(Player.class.getName()) == 0)
-		{
-			retrievedStorables = PlayerDatabaseAdapter.getInstance().retrieveAll(this.db);
-		}
-		else if (type.getName().compareTo(GameSession.class.getName()) == 0)
-		{
-			retrievedStorables = GameSessionDatabaseAdapter.getInstance().retrieveAll(this.db);
-		}
+		// Retrieve from the database
+		// TODO is this safe? String comparisons with maps?
+		retrievedStorables = this.getDbAdapter(type).retrieveAll(this.db);
 
 		// Update internal list if the storable was 
 		// retrieved from the database
@@ -147,6 +138,19 @@ public class SQLiteDatastore extends SimpleDatastore
 		}
 
 		return retrievedStorables;
+	}
+	
+	// TODO THROWS
+	private DatabaseAdapter getDbAdapter(Class type)
+	{
+		if (this.classAdapterMap.containsKey(type.getName()))
+		{
+			return this.classAdapterMap.get(type.getName());
+		}
+		else
+		{
+			return null;
+		}
 	}
 }
 
