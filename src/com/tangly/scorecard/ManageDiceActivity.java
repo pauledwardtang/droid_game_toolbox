@@ -1,22 +1,22 @@
 package com.tangly.scorecard;
 
 import android.app.*;
-import android.content.*;
 import android.os.*;
 import android.util.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+
 import com.tangly.framework.dialogs.*;
-import com.tangly.scorecard.*;
+import com.tangly.scorecard.datastore.DatastoreDefs;
 import com.tangly.scorecard.model.*;
-import com.tangly.scorecard.storage.*;
 
 // TODO make yet another base class and specify the class name through the
 // intent!
 public class ManageDiceActivity extends StorableListViewActivity
 {
 	private static final String TAG = "DiceManager";
+	private EditCallback callback;
 
 	@Override
     public void onCreate(Bundle savedInstanceState)
@@ -28,21 +28,40 @@ public class ManageDiceActivity extends StorableListViewActivity
 		addDiceBtn.setOnClickListener(new OnClickListener(){
 			public void onClick(View p1)
 			{
-				// TODO implement add dice fragment
-//				startActivity(new Intent(getApplicationContext(), ManageDiceActivity.class));
+				callback = new EditCallback();
+
+				// Adding will show the fragment
+				callback.addStorable();
 			}
 		});
     }
 
 	protected class EditCallback implements EditStorableCallback, NoticeDialogFragment.NoticeDialogListener
 	{
-		protected Storable storable;
+		protected Dice dice;
+
+		/**
+		 * Creates an EditDiceDialogFragment without specifying any arguments in a bundle.
+		 */
+		public void addStorable()
+		{
+			dice = new Dice();
+			EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
+			newFragment.setMListener(EditCallback.this);
+			newFragment.show(getFragmentManager(), "diceEdit");
+		}
+
 		public void editStorable(long id)
 		{
-			// Get refernce to the storable that will be used
-			storable = getItemById(id);
+			// Get reference to the storable that will be used
+			dice = (Dice) getItemById(id);
 
-			NoticeDialogFragment newFragment = new EditTextDialogFragment(storable.getDisplayName());
+			EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
+			Bundle argsBundle = new Bundle();
+			argsBundle.putString(EditDiceDialogFragment.BUNDLE_DICE_NAME, dice.getDisplayName());
+			argsBundle.putInt(EditDiceDialogFragment.BUNDLE_NUM_SIDES, dice.getNumSides());
+
+			newFragment.setArguments(argsBundle);
 			newFragment.setMListener(EditCallback.this);
 			newFragment.show(getFragmentManager(), "diceEdit");
 		}
@@ -52,17 +71,29 @@ public class ManageDiceActivity extends StorableListViewActivity
 		 */	
 		public void onDialogPositiveClick(DialogFragment dialog)
 		{
-			EditTextDialogFragment fragment = (EditTextDialogFragment) dialog;
+			EditDiceDialogFragment fragment = (EditDiceDialogFragment) dialog;
+			Dice updatedDice = fragment.getDice();
 
-			// Update the underlying model if the name has changed
-			if (this.storable.getDisplayName().compareTo(fragment.getTextFieldString()) != 0)
+			// Update the underlying model if there are changes
+			if (this.dice.compareTo(updatedDice) != 0)
 			{
+				// New dice if the ID is an invalid ID
+				boolean newDie = (this.dice.getId() == DatastoreDefs.INVALID_ID);
 				Log.d(TAG, "Changes detected, updating...");
-				this.storable.setDisplayName(fragment.getTextFieldString());
-				this.storable.save(getDatastore());
+
+				this.dice.setDisplayName(updatedDice.getDisplayName());
+				this.dice.setResultMap(updatedDice.getResultMap());
+				this.dice.save(getDatastore());
 
 				// Update adapter since there has been a change
-				getAdapter().notifyDataSetChanged();
+				if (newDie)
+				{
+					getAdapter().add(this.dice);
+				}
+				else
+				{
+					getAdapter().notifyDataSetChanged();
+				}
 			}
 		}
 
@@ -94,13 +125,13 @@ public class ManageDiceActivity extends StorableListViewActivity
 	 * @see StorableListViewActivity.getStorableType
 	 */
 	@Override
-	protected Class getStorableType() { return Dice.class; }
+	protected Class<Dice> getStorableType() { return Dice.class; }
 
 	/**
 	 * @see StorableListViewActivity.getEditStorableActivity
 	 */
 	@Override
-	protected Class getEditStorableActivity() { return null; }
+	protected Class<?> getEditStorableActivity() { return null; }
 
 	/**
 	 * @see StorableListViewActivity.getTextViewResourceId

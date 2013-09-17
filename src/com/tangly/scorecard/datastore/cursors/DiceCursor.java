@@ -32,7 +32,9 @@ public class DiceCursor extends SQLiteCursor
 	{
 		//TODO implement... a dice has a set of results mapped to each die number or a
 		// range.... need to retrieve everything associated with the dice too
-		return new Dice(this.getNumSides(), this.getName());
+		Dice retVal = new Dice(this.getNumSides(), this.getName());
+		retVal.setId(this.getId());
+		return retVal;
 	}
 	
 	public static class Factory implements SQLiteDatabase.CursorFactory

@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
  */
 public class EditTextDialogFragment extends NoticeDialogFragment
 {
- 	private static String DEFAULT_TITLE = "Edit field";
+	private static String DEFAULT_TITLE = "Edit field";
 	private String title;
 	private String defaultTextFieldString;
 	private EditText textField;

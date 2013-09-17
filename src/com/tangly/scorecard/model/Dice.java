@@ -2,14 +2,16 @@ package com.tangly.scorecard.model;
 
 import com.tangly.framework.*;
 import com.tangly.scorecard.storage.*;
+
 import java.util.*;
+import com.google.common.collect.*; 
 
 /**
  * Class for custom dice
  */
-public class Dice extends DefaultStorable
+public class Dice extends DefaultStorable implements Comparable<Dice>
 {
-	private static final int DEFAULT_NUM_SIDES = 6;
+	public static final int DEFAULT_NUM_SIDES = 6;
 	private static final String DEFAULT_NAME = "D6";
 	Map<Integer, String> dieResultMap;
 
@@ -42,6 +44,7 @@ public class Dice extends DefaultStorable
 	}
 
 	// TODO figure out a better way to this. This is a little too revealing
+	public void setResultMap(Map<Integer,String> resultMap) { this.dieResultMap = resultMap; }
 	public Map<Integer,String> getResultMap() { return this.dieResultMap; }
 
 	/**
@@ -96,5 +99,36 @@ public class Dice extends DefaultStorable
 			this.dice.setDisplayName(name);
 			return this;
 		}
+	}
+
+	/**
+	 * Compares two dice. Note that ID is NOT checked.
+	 * @param another
+	 * @return
+	 */
+	@Override
+	public int compareTo(Dice another)
+	{
+		// Check display name
+		if (this.getDisplayName().compareTo(another.getDisplayName()) != 0)
+		{
+			return this.getDisplayName().compareTo(another.getDisplayName());
+		}
+		// Number of sides
+		else if (this.getNumSides() != another.getNumSides())
+		{
+			// Return this if it's greater than the other
+			return (this.getNumSides() > another.getNumSides()) ? 1 : -1;
+		}
+		// Result map
+		MapDifference<Integer, String> mapDiff = Maps.difference(this.getResultMap(), another.getResultMap());
+		if(!mapDiff.areEqual())
+		{
+			// TODO Unit test this...
+			return (mapDiff.entriesOnlyOnLeft().size() > mapDiff.entriesOnlyOnRight().size()) ? 1 : -1;
+		}
+		
+		// Same
+		return 0;
 	}
 }
