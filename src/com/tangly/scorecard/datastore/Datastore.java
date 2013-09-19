@@ -16,8 +16,8 @@ public interface Datastore
 	public void add(Collection<? extends Storable> c);
 	public void add(Storable s);
 
-	public <T extends Storable> Storable get(long id, Class type);
-	public <T extends Storable> Collection<Storable> getAll(Class type);
+	public <T extends Storable> Storable get(long id, Class<? extends Storable> type);
+	public <T extends Storable> Collection<Storable> getAll(Class<? extends Storable> type);
 
 	public long store(Storable s);
 	public void delete(Storable s);

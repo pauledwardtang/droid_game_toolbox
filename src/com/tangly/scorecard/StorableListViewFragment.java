@@ -1,21 +1,27 @@
 package com.tangly.scorecard;
 
-import android.app.*;
+import android.app.Activity;
 import android.content.*;
 import android.os.*;
+import android.support.v4.app.ListFragment;
 import android.view.*;
-import android.widget.*;
+
 import com.tangly.scorecard.datastore.*;
-import com.tangly.scorecard.model.*;
 import com.tangly.scorecard.storage.*;
+
 import java.util.*;
 
-public abstract class StorableListViewActivity extends Activity
+/**
+ * Displays a list of Storables with an edit/remove button. Subclasses should implement
+ * callbacks for binding to the edit button as well as the add button.
+ * 
+ * @author Paul Tang
+ */
+public abstract class StorableListViewFragment extends ListFragment
 	implements DatastoreRetrieveTask.PostExecuteListener
 {
 	private StorableArrayAdapter adapter;
 	private Datastore datastore;
-	private ListView listView;
 	private List<Storable> items = new ArrayList<Storable>();
 
 	public List<Storable> getItems()
@@ -37,36 +43,43 @@ public abstract class StorableListViewActivity extends Activity
 		return retVal;
 	}
 
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-	{
-        super.onCreate(savedInstanceState);
-    }
-
 	/** Called when the activity is started. */
     @Override
     public void onStart()
 	{
 		super.onStart();
-		this.init();
+		this.init(null, null, null);
 	}
 
-	protected void init()
+    /**
+     * 
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
+	protected void init(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		// Set the datastore first in case any of the templated functions need to use the datastore
-		this.datastore = DatastoreManager.getDatastore(getApplicationContext());
+		Context ctx = this.getActivity().getApplicationContext();
+		this.datastore = DatastoreManager.getDatastore(ctx);
 
-		// Hook up adapters
+		LayoutInflater theInflater = inflater;
+		if (theInflater == null)
+		{
+			theInflater = getLayoutInflater(savedInstanceState);
+		}
+		
+		// Hook up adapter
 		this.adapter = 
-			new StorableArrayAdapter(getApplicationContext(),
+			new StorableArrayAdapter(ctx,
 									 this.getTextViewResourceId(),
 									 this.items,
-									 (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
+									 theInflater,
 									 this.getEditStorableOnClickListener(),
 									 this.getEditStorableCallback());
-		this.listView = (ListView) findViewById(android.R.id.list);
-		this.listView.setAdapter(this.adapter);
+
+		this.setListAdapter(this.adapter);
 
 		// Populate the adapter
 		new DatastoreRetrieveTask(this.datastore, this.getStorableType(), this).execute();
@@ -74,8 +87,8 @@ public abstract class StorableListViewActivity extends Activity
 
 	public void onPostExecute(Collection<Storable> results)
 	{
-		this.items.clear();
-		this.items.addAll(results);
+		this.adapter.clear();
+		this.adapter.addAll(results);
 		this.adapter.notifyDataSetChanged();
 	}
 
@@ -107,12 +120,12 @@ public abstract class StorableListViewActivity extends Activity
 	/**
 	 * Get the storable type that will be used to populate the view with row entries
 	 */
-	protected abstract Class getStorableType();
+	protected abstract Class<? extends Storable> getStorableType();
 	
 	/**
 	 * Gets the Activity that will be launched when the Storable item's edit button is clicked
 	 */
-	protected abstract Class getEditStorableActivity();
+	protected abstract Class<? extends Activity> getEditStorableActivity();
 
 	/**
 	 * Gets the resource ID that will be used to inflate the ArrayAdapter

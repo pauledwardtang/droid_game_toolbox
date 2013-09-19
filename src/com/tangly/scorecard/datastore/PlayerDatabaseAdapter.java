@@ -112,7 +112,7 @@ public class PlayerDatabaseAdapter extends DefaultDatabaseAdapter implements Dat
 			playerInsertStatement 
 				= db.compileStatement("INSERT INTO Player(name, score) values (:1, :2)");
 		}
-		playerInsertStatement.bindString(1, ((Player) s).getName());
+		playerInsertStatement.bindString(1, s.getDisplayName());
 		playerInsertStatement.bindLong(2, ((Player) s).getScore());
 		return playerInsertStatement.executeInsert();
 	}
@@ -124,9 +124,9 @@ public class PlayerDatabaseAdapter extends DefaultDatabaseAdapter implements Dat
 			playerUpdateStatement
 				= db.compileStatement("UPDATE Player SET name=:1, score=:2 WHERE id=:3");
 		}
-		playerUpdateStatement.bindString(1, ((Player) s).getName());
+		playerUpdateStatement.bindString(1, s.getDisplayName());
 		playerUpdateStatement.bindLong(2, ((Player) s).getScore());
-		playerUpdateStatement.bindLong(3, ((Player) s).getId());
+		playerUpdateStatement.bindLong(3, s.getId());
 		playerUpdateStatement.executeUpdateDelete();
 	}
 }

@@ -1,6 +1,7 @@
 package com.tangly.scorecard;
 
-import android.app.*;
+import android.support.v4.app.*;
+import android.app.Activity;
 import android.os.*;
 import android.util.*;
 import android.view.*;
@@ -12,29 +13,30 @@ import com.tangly.scorecard.datastore.DatastoreDefs;
 import com.tangly.scorecard.model.*;
 
 // TODO make yet another base class and specify the class name through the
-// intent!
-public class ManageDiceActivity extends StorableListViewActivity
+// intent?!
+public class ManageDiceFragment extends StorableListViewFragment
 {
 	private static final String TAG = "DiceManager";
 	private EditCallback callback;
 
 	@Override
-    public void onCreate(Bundle savedInstanceState)
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-        super.onCreate(savedInstanceState);
-		setContentView(R.layout.manage_model);
+		super.onCreateView(inflater, container, savedInstanceState);
+		View view = inflater.inflate(R.layout.manage_model, null);
 
-		Button addDiceBtn = (Button) findViewById(R.id.addBtn);
+		Button addDiceBtn = (Button) view.findViewById(R.id.addBtn);
 		addDiceBtn.setOnClickListener(new OnClickListener(){
-			public void onClick(View p1)
-			{
+			public void onClick(View p1){
 				callback = new EditCallback();
 
 				// Adding will show the fragment
 				callback.addStorable();
 			}
 		});
-    }
+		
+		return view;
+	}
 
 	protected class EditCallback implements EditStorableCallback, NoticeDialogFragment.NoticeDialogListener
 	{
@@ -105,7 +107,7 @@ public class ManageDiceActivity extends StorableListViewActivity
 	}
 
 	/**
-	 * @see StorableListViewActivity.getEditStorableOnClickListener
+	 * @see StorableListViewFragment.getEditStorableOnClickListener
 	 */
 	protected EditStorableOnClickListener getEditStorableOnClickListener()
 	{
@@ -113,7 +115,7 @@ public class ManageDiceActivity extends StorableListViewActivity
 	}
 
 	/**
-	 * @see StorableListViewActivity.getEditStorableCallback
+	 * @see StorableListViewFragment.getEditStorableCallback
 	 */
 	@Override
 	protected EditStorableCallback getEditStorableCallback()
@@ -122,19 +124,19 @@ public class ManageDiceActivity extends StorableListViewActivity
 	}
 
 	/**
-	 * @see StorableListViewActivity.getStorableType
+	 * @see StorableListViewFragment.getStorableType
 	 */
 	@Override
 	protected Class<Dice> getStorableType() { return Dice.class; }
 
 	/**
-	 * @see StorableListViewActivity.getEditStorableActivity
+	 * @see StorableListViewFragment.getEditStorableActivity
 	 */
 	@Override
-	protected Class<?> getEditStorableActivity() { return null; }
+	protected Class<? extends Activity> getEditStorableActivity() { return null; }
 
 	/**
-	 * @see StorableListViewActivity.getTextViewResourceId
+	 * @see StorableListViewFragment.getTextViewResourceId
 	 */
 	@Override
 	protected int getTextViewResourceId() { return android.R.id.list;}

@@ -1,20 +1,18 @@
 package com.tangly.scorecard.datastore;
 
 import java.util.*;
+
 import android.database.sqlite.*;
-import android.database.sqlite.SQLiteDatabase.*;
 import android.util.*;
 
 import com.tangly.scorecard.model.*;
 import com.tangly.scorecard.storage.*;
-import com.tangly.scorecard.datastore.cursors.*;
 
 /**
  * SQLite implementation of datastore
  */
 public class SQLiteDatastore extends SimpleDatastore
 {
-	private SQLiteOpenHelper helper;
 	private SQLiteDatabase db;
 	private Map<String, DatabaseAdapter> classAdapterMap;
 	private static String TAG = "Datastore";
@@ -22,7 +20,6 @@ public class SQLiteDatastore extends SimpleDatastore
 	public SQLiteDatastore(SQLiteOpenHelper h)
 	{
 		super();
-		helper = h;
 		db = h.getWritableDatabase();
 		
 		this.classAdapterMap = new HashMap<String, DatabaseAdapter>();
@@ -35,7 +32,7 @@ public class SQLiteDatastore extends SimpleDatastore
 	public long store(Storable s)
 	{
 		long retVal = s.getId();
-		Class type = s.getClass();
+		Class<? extends Storable> type = s.getClass();
 
 		if (s instanceof GameSession)
 		{
@@ -95,9 +92,9 @@ public class SQLiteDatastore extends SimpleDatastore
 	}
 
 	@Override
-	public Storable get(long id, Class type)
+	public <T extends Storable> Storable get(long id, Class<? extends Storable> type)
 	{
-		if (this.has(id))
+		if (this.has(id))    
 		{
 			return super.get(id, type);
 		}
@@ -121,9 +118,9 @@ public class SQLiteDatastore extends SimpleDatastore
 		}
 	}
 
-	public Collection<Storable> getAll(Class type)
+	@Override
+	public <T extends Storable> Collection<Storable> getAll(Class<? extends Storable> type)
 	{
-		Log.d(TAG, "Retrieving all: " + type.getName());
 		Collection<Storable> retrievedStorables;
 
 		// Retrieve from the database
@@ -141,7 +138,7 @@ public class SQLiteDatastore extends SimpleDatastore
 	}
 	
 	// TODO THROWS
-	private DatabaseAdapter getDbAdapter(Class type)
+	private DatabaseAdapter getDbAdapter(Class<? extends Storable> type)
 	{
 		if (this.classAdapterMap.containsKey(type.getName()))
 		{

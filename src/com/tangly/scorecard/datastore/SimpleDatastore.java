@@ -45,12 +45,12 @@ public abstract class SimpleDatastore implements Datastore
 	public void remove(Storable s) { this.simpleMap.remove(s.getId()); }
 	
 	// TODO throws!
-	public <T extends Storable> Storable get(long id, Class type)
+	public <T extends Storable> Storable get(long id, Class<? extends Storable> type)
 	{
 		return simpleMap.get(id);
 	}
 	
-	public <T extends Storable> Collection<Storable> getAll(Class type)
+	public <T extends Storable> Collection<Storable> getAll(Class<? extends Storable> type)
 	{
 		return simpleMap.values();
 	}

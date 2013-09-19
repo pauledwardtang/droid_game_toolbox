@@ -3,7 +3,6 @@ package com.tangly.scorecard.datastore;
 
 import android.content.*;
 import android.database.sqlite.*;
-import com.tangly.scorecard.*;
 
 /**
  * Simple class for decoupling Datastore constructors

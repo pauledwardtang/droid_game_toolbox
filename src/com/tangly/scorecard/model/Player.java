@@ -1,7 +1,5 @@
 package com.tangly.scorecard.model;
 
-
-import java.util.*;
 import com.tangly.scorecard.storage.*;
 
 public class Player extends DefaultStorable// implements SchemaDefinable

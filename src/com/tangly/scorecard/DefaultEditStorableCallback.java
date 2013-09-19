@@ -1,6 +1,8 @@
 package com.tangly.scorecard;
 
+import android.app.Activity;
 import android.content.*;
+
 import com.tangly.scorecard.datastore.*;
 
 /**
@@ -9,10 +11,10 @@ import com.tangly.scorecard.datastore.*;
 public class DefaultEditStorableCallback implements EditStorableCallback
 {
  	private Context context;
-	private Class launcherActivity;
+	private Class<? extends Activity> launcherActivity;
 
 	public DefaultEditStorableCallback(Context context,
-									   Class launcherActivity)
+									   Class<? extends Activity> launcherActivity)
 	{
 		this.context = context;
 		this.launcherActivity = launcherActivity;

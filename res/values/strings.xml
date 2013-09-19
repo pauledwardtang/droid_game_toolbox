@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, MainActivity!</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="app_name">ScoreCard</string>
+    <string name="empty_model_list">No entries exist! Add some!</string>
+    <string name="add_model_button_text">Add</string>
 
 </resources>

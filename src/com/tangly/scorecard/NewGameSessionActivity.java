@@ -91,7 +91,7 @@ public class NewGameSessionActivity extends Activity
 				if (i < this.session.getPlayers().size())
 				{
 					// Get player text view and set it to the saved one
-					tv.setText(this.session.getPlayers().get(i).getName());
+					tv.setText(this.session.getPlayers().get(i).getDisplayName());
 				}
 				else
 				{
@@ -154,7 +154,7 @@ public class NewGameSessionActivity extends Activity
 				// Get player text view and set it to the saved one
 				Log.d("NewGS", "Setting player name to " + 
 					  tv.getText().toString() + " for " + this.session.getPlayers().get(i).toString());
-				this.session.getPlayers().get(i).setName(tv.getText().toString());
+				this.session.getPlayers().get(i).setDisplayName(tv.getText().toString());
 			}
 		}
 	}
