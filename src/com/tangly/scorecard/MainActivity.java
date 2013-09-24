@@ -84,6 +84,9 @@ public class MainActivity extends FragmentActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
 //        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+    	
+    	// Always hide the websearch icon
+        menu.findItem(R.id.action_websearch).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
