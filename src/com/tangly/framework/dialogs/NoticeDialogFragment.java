@@ -31,7 +31,7 @@ public class NoticeDialogFragment extends DialogFragment
 		}
 	}
 
-	protected class PositiveButtonDialogOnClickListener implements DialogInterface.OnClickListener
+	public class PositiveButtonDialogOnClickListener implements DialogInterface.OnClickListener
 	{
 		public void onClick(DialogInterface dialog, int id)
 		{
@@ -39,7 +39,7 @@ public class NoticeDialogFragment extends DialogFragment
 		}
 	}
 
-	protected class NegativeButtonDialogOnClickListener implements DialogInterface.OnClickListener
+	public class NegativeButtonDialogOnClickListener implements DialogInterface.OnClickListener
 	{
 		public void onClick(DialogInterface dialog, int id)
 		{

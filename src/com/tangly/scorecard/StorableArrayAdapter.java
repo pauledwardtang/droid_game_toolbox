@@ -8,10 +8,10 @@ import android.widget.*;
 import com.tangly.scorecard.storage.*;
 import java.util.*;
 
-public class StorableArrayAdapter extends ArrayAdapter<Storable>  
+public class StorableArrayAdapter<T extends Storable> extends ArrayAdapter<T>  
 {
 	private OnClickListener onClickListener;
-	private List<Storable> items;
+	private List<T> items;
 	private LayoutInflater inflater;
 	private EditStorableOnClickListener editStorableOnClickListener;
 	private EditStorableCallback editStorableCallback;
@@ -28,7 +28,7 @@ public class StorableArrayAdapter extends ArrayAdapter<Storable>
 	 */
 	public StorableArrayAdapter(Context context,
 								 int textViewResourceId,
-								 List<Storable> items,
+								 List<T> items,
 								 LayoutInflater inflater,
 								 EditStorableOnClickListener editListener,
 								 EditStorableCallback callback)
@@ -43,7 +43,7 @@ public class StorableArrayAdapter extends ArrayAdapter<Storable>
 		}
 	}
 
-	private StorableArrayAdapter(Context context, int textViewResourceId, List<Storable> items)
+	private StorableArrayAdapter(Context context, int textViewResourceId, List<T> items)
 	{
 		super(context, textViewResourceId, items);
 		this.items = items;

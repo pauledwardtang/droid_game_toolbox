@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * AsyncTask for retrieving objects from a Datastore
  */
-public class DatastoreRetrieveTask extends AsyncTask<String, Void, Collection<Storable>>
+public class DatastoreRetrieveTask extends AsyncTask<Long, Void, Collection<Storable>>
 {
  	private Datastore dsInstance;
 	private Class<? extends Storable> recordType;
@@ -31,7 +31,7 @@ public class DatastoreRetrieveTask extends AsyncTask<String, Void, Collection<St
 	 * delivers it the parameters given to AsyncTask.execute()
 	 */
 	@Override
-	protected Collection<Storable> doInBackground(String... ids) 
+	protected Collection<Storable> doInBackground(Long... ids) 
 	{
 		Collection<Storable> retVal;
 		if (ids.length == 0)
@@ -41,9 +41,9 @@ public class DatastoreRetrieveTask extends AsyncTask<String, Void, Collection<St
 		else
 		{
 			retVal = new ArrayList<Storable>();
-			for (String id : ids)
+			for (Long id : ids)
 			{
-				retVal.add(this.dsInstance.get(Long.valueOf(id), recordType));
+				retVal.add(this.dsInstance.get(id, recordType));
 			}
 		}
 		return retVal;

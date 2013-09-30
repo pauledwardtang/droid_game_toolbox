@@ -2,7 +2,7 @@ package com.tangly.scorecard.model;
 
 import com.tangly.scorecard.storage.*;
 
-public class Player extends DefaultStorable// implements SchemaDefinable
+public class Player extends DefaultStorable implements Comparable<Player>
 {
 	private int score;
 
@@ -23,19 +23,21 @@ public class Player extends DefaultStorable// implements SchemaDefinable
 
 	public String toString()
 	{
-		String retVal = "ID:" + this.getId() + this.getName();
-		retVal += " Score:" + this.getScore();
-		return retVal;
+		return this.getDisplayName();
 	}
 
-	// Should be using "getDisplayName" now from Storable interface
-	@Deprecated
-	public String getName() { return this.getDisplayName(); }
-
-	// Should be using "getDisplayName" now from Storable interface
-	@Deprecated
-	public void setName(String name) { this.setDisplayName(name); }
 	public int getScore() { return this.score; }
 	public void setScore(int score) { this.score = score; }
+
+	/**
+	 * Compares two Players. Note that ID is NOT checked.
+	 * @param another
+	 * @return
+	 */
+	@Override
+	public int compareTo(Player another)
+	{
+		return this.getDisplayName().compareTo(another.getDisplayName());
+	}
 }
 

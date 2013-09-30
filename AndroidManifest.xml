@@ -21,7 +21,7 @@
         </activity>
 
         <activity android:name=".ApplicationContextProvider" />
-		<activity android:name=".NewGameSessionActivity" />
+		<activity android:name=".EditGameSessionDialogFragment" />
 		<activity android:name=".ManagePlayersFragment" />
 		<activity android:name=".ManageDiceFragment" />
 	</application>

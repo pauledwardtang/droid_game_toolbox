@@ -34,7 +34,7 @@ public class SQLiteDatastore extends SimpleDatastore
 		long retVal = s.getId();
 		Class<? extends Storable> type = s.getClass();
 
-		if (s instanceof GameSession)
+		if (s.getClass().isInstance(GameSession.class))
 		{
 			// Update the player IDs first so we can associate them with the GameSession
 			for ( Player player : ((GameSession) s).getPlayers())

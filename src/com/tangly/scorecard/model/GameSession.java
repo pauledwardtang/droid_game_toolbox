@@ -2,9 +2,12 @@ package com.tangly.scorecard.model;
 
 import com.tangly.scorecard.datastore.*;
 import com.tangly.scorecard.storage.*;
+
 import java.util.*;
 
-public class GameSession extends DefaultStorable
+import org.apache.commons.collections4.CollectionUtils;
+
+public class GameSession extends DefaultStorable implements Comparable<GameSession>
 {
 	private List<Player> players;
 
@@ -49,6 +52,39 @@ public class GameSession extends DefaultStorable
 		{
 			p.save(d);
 		}
+	}
+
+	/**
+	 * Compares two GameSession. Note that ID is NOT checked.
+	 * @param another
+	 * @return
+	 */
+	@Override
+	public int compareTo(GameSession another)
+	{
+		// Check display name
+		if (this.getDisplayName().compareTo(another.getDisplayName()) != 0)
+		{
+			return this.getDisplayName().compareTo(another.getDisplayName());
+		}
+		// Check players
+		// TODO this may not be sufficient
+		else if(!CollectionUtils.isEqualCollection(this.getPlayers(), another.getPlayers()))
+		{
+			// If the collections are not the same, find which one is "bigger"
+			if (this.getPlayers().size() != another.getPlayers().size())
+			{
+				return (this.getPlayers().size() > another.getPlayers().size()) ? 1 : -1;
+			}
+			else
+			{
+				// Ok, they're not the same. Don't really care about lexographically
+				// comparing each player at this point, they're different
+				return 1;
+			}
+		}
+		// Same
+		return 0;
 	}
 }
 
