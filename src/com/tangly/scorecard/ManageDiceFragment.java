@@ -1,143 +1,129 @@
 package com.tangly.scorecard;
 
-import android.support.v4.app.*;
-import android.app.Activity;
-import android.os.*;
-import android.util.*;
-import android.view.*;
-import android.view.View.*;
-import android.widget.*;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.tangly.framework.dialogs.*;
+import com.tangly.framework.dialogs.EditDiceDialogFragment;
+import com.tangly.framework.dialogs.NoticeDialogFragment;
 import com.tangly.scorecard.datastore.DatastoreDefs;
-import com.tangly.scorecard.model.*;
+import com.tangly.scorecard.model.Dice;
 
 // TODO make yet another base class and specify the class name through the
 // intent?!
-public class ManageDiceFragment extends StorableListViewFragment
+public class ManageDiceFragment extends StorableListViewFragment<Dice>
 {
-	private static final String TAG = "DiceManager";
-	private EditCallback callback;
+    private static final String TAG = "DiceManager";
+    private EditCallback callback;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.manage_model, null);
+    public ManageDiceFragment()
+    {
+        super(Dice.class);
+    }
 
-		Button addDiceBtn = (Button) view.findViewById(R.id.addBtn);
-		addDiceBtn.setOnClickListener(new OnClickListener(){
-			public void onClick(View p1){
-				callback = new EditCallback();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.manage_model, null);
 
-				// Adding will show the fragment
-				callback.addStorable();
-			}
-		});
-		
-		return view;
-	}
+        Button addDiceBtn = (Button) view.findViewById(R.id.addBtn);
+        addDiceBtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View p1)
+            {
+                callback = new EditCallback();
 
-	protected class EditCallback implements EditStorableCallback, NoticeDialogFragment.NoticeDialogListener
-	{
-		protected Dice dice;
+                // Adding will show the fragment
+                callback.addStorable();
+            }
+        });
 
-		/**
-		 * Creates an EditDiceDialogFragment without specifying any arguments in a bundle.
-		 */
-		public void addStorable()
-		{
-			dice = new Dice();
-			EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
-			newFragment.setMListener(EditCallback.this);
-			newFragment.show(getFragmentManager(), "diceEdit");
-		}
+        return view;
+    }
 
-		public void editStorable(long id)
-		{
-			// Get reference to the storable that will be used
-			dice = (Dice) getItemById(id);
+    protected class EditCallback implements EditStorableCallback, NoticeDialogFragment.NoticeDialogListener
+    {
+        protected Dice dice;
 
-			EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
-			Bundle argsBundle = new Bundle();
-			argsBundle.putString(EditDiceDialogFragment.BUNDLE_DICE_NAME, dice.getDisplayName());
-			argsBundle.putInt(EditDiceDialogFragment.BUNDLE_NUM_SIDES, dice.getNumSides());
+        /**
+         * Creates an EditDiceDialogFragment without specifying any arguments in
+         * a bundle.
+         */
+        public void addStorable()
+        {
+            dice = new Dice();
+            EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
+            newFragment.setMListener(EditCallback.this);
+            newFragment.show(getFragmentManager(), "diceEdit");
+        }
 
-			newFragment.setArguments(argsBundle);
-			newFragment.setMListener(EditCallback.this);
-			newFragment.show(getFragmentManager(), "diceEdit");
-		}
+        public void editStorable(long id)
+        {
+            // Get reference to the storable that will be used
+            dice = (Dice) getItemById(id);
 
-		/**
-		 * @see NoticeDialogFragment.NoticeDialogListener.onDialogPositiveClick
-		 */	
-		public void onDialogPositiveClick(DialogFragment dialog)
-		{
-			EditDiceDialogFragment fragment = (EditDiceDialogFragment) dialog;
-			Dice updatedDice = fragment.getDice();
+            EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
+            Bundle argsBundle = new Bundle();
+            argsBundle.putString(EditDiceDialogFragment.BUNDLE_DICE_NAME, dice.getDisplayName());
+            argsBundle.putInt(EditDiceDialogFragment.BUNDLE_NUM_SIDES, dice.getNumSides());
 
-			// Update the underlying model if there are changes
-			if (this.dice.compareTo(updatedDice) != 0)
-			{
-				// New dice if the ID is an invalid ID
-				boolean newDie = (this.dice.getId() == DatastoreDefs.INVALID_ID);
-				Log.d(TAG, "Changes detected, updating...");
+            newFragment.setArguments(argsBundle);
+            newFragment.setMListener(EditCallback.this);
+            newFragment.show(getFragmentManager(), "diceEdit");
+        }
 
-				this.dice.setDisplayName(updatedDice.getDisplayName());
-				this.dice.setResultMap(updatedDice.getResultMap());
-				this.dice.save(getDatastore());
+        /**
+         * @see NoticeDialogFragment.NoticeDialogListener.onDialogPositiveClick
+         */
+        public void onDialogPositiveClick(DialogFragment dialog)
+        {
+            EditDiceDialogFragment fragment = (EditDiceDialogFragment) dialog;
+            Dice updatedDice = fragment.getDice();
 
-				// Update adapter since there has been a change
-				if (newDie)
-				{
-					getAdapter().add(this.dice);
-				}
-				else
-				{
-					getAdapter().notifyDataSetChanged();
-				}
-			}
-		}
+            // Update the underlying model if there are changes
+            if (this.dice.compareTo(updatedDice) != 0)
+            {
+                // New dice if the ID is an invalid ID
+                boolean newDie = (this.dice.getId() == DatastoreDefs.INVALID_ID);
+                Log.d(TAG, "Changes detected, updating...");
 
-		/**
-		 * Do nothing if the user clicked cancel
-		 * @see NoticeDialogFragment.NoticeDialogListener.onDialogNegativeClick
-		 */	
-		public void onDialogNegativeClick(DialogFragment dialog) {}
-	}
+                this.dice.setDisplayName(updatedDice.getDisplayName());
+                this.dice.setResultMap(updatedDice.getResultMap());
+                this.dice.save(getDatastore());
 
-	/**
-	 * @see StorableListViewFragment.getEditStorableOnClickListener
-	 */
-	protected EditStorableOnClickListener getEditStorableOnClickListener()
-	{
-		return null;
-	}
+                // Update adapter since there has been a change
+                if (newDie)
+                {
+                    getAdapter().add(this.dice);
+                }
+                else
+                {
+                    getAdapter().notifyDataSetChanged();
+                }
+            }
+        }
 
-	/**
-	 * @see StorableListViewFragment.getEditStorableCallback
-	 */
-	@Override
-	protected EditStorableCallback getEditStorableCallback()
-	{
-		return new EditCallback();
-	}
+        /**
+         * Do nothing if the user clicked cancel
+         * 
+         * @see NoticeDialogFragment.NoticeDialogListener.onDialogNegativeClick
+         */
+        public void onDialogNegativeClick(DialogFragment dialog)
+        {
+        }
+    }
 
-	/**
-	 * @see StorableListViewFragment.getStorableType
-	 */
-	@Override
-	protected Class<Dice> getStorableType() { return Dice.class; }
-
-	/**
-	 * @see StorableListViewFragment.getEditStorableActivity
-	 */
-	@Override
-	protected Class<? extends Activity> getEditStorableActivity() { return null; }
-
-	/**
-	 * @see StorableListViewFragment.getTextViewResourceId
-	 */
-	@Override
-	protected int getTextViewResourceId() { return android.R.id.list;}
+    /**
+     * @see StorableListViewFragment.getEditStorableCallback
+     */
+    @Override
+    protected EditStorableCallback getEditStorableCallback()
+    {
+        return new EditCallback();
+    }
 }

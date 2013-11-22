@@ -12,44 +12,50 @@ import com.tangly.scorecard.storage.*;
 import java.util.*;
 
 /**
- * Displays a list of Storables with an edit/remove button. Subclasses should implement
- * callbacks for binding to the edit button as well as the add button.
+ * Displays a list of Storables with an edit/remove button. Subclasses should
+ * implement callbacks for binding to the edit button as well as the add button.
  * 
  * @author Paul Tang
  */
-public abstract class StorableListViewFragment extends ListFragment
-	implements DatastoreRetrieveTask.PostExecuteListener
+public abstract class StorableListViewFragment<T extends Storable> extends
+        ListFragment implements DatastoreRetrieveTask.PostExecuteListener
 {
-	private StorableArrayAdapter adapter;
-	private Datastore datastore;
-	private List<Storable> items = new ArrayList<Storable>();
+    private StorableArrayAdapter<T> adapter;
+    private Datastore datastore;
+    private List<Storable> items = new ArrayList<Storable>();
+    private Class<T> clazz;
 
-	public List<Storable> getItems()
-	{
-		return this.items;
-	}
+    protected StorableListViewFragment(Class<T> clazz)
+    {
+        this.clazz = clazz;
+    }
 
-	public Storable getItemById(Long id)
-	{
-		Storable retVal = null;
-		for (Storable s : this.items)
-		{
-			if (id.longValue() == s.getId())
-			{
-				retVal = s;
-				break;
-			}
-		}
-		return retVal;
-	}
+    public List<Storable> getItems()
+    {
+        return this.items;
+    }
 
-	/** Called when the activity is started. */
+    public Storable getItemById(Long id)
+    {
+        Storable retVal = null;
+        for (Storable s : this.items)
+        {
+            if (id.longValue() == s.getId())
+            {
+                retVal = s;
+                break;
+            }
+        }
+        return retVal;
+    }
+
+    /** Called when the activity is started. */
     @Override
     public void onStart()
-	{
-		super.onStart();
-		this.init(null, null, null);
-	}
+    {
+        super.onStart();
+        this.init(null, null, null);
+    }
 
     /**
      * 
@@ -58,77 +64,95 @@ public abstract class StorableListViewFragment extends ListFragment
      * @param savedInstanceState
      * @return
      */
-	protected void init(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		// Set the datastore first in case any of the templated functions need to use the datastore
-		Context ctx = this.getActivity().getApplicationContext();
-		this.datastore = DatastoreManager.getDatastore(ctx);
+    protected void init(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState)
+    {
+        // Set the datastore first in case any of the templated functions need
+        // to use the datastore
+        Context ctx = this.getActivity().getApplicationContext();
+        this.datastore = DatastoreManager.getDatastore(ctx);
 
-		LayoutInflater theInflater = inflater;
-		if (theInflater == null)
-		{
-			theInflater = getLayoutInflater(savedInstanceState);
-		}
-		
-		// Hook up adapter
-		this.adapter = 
-			new StorableArrayAdapter(ctx,
-									 this.getTextViewResourceId(),
-									 this.items,
-									 theInflater,
-									 this.getEditStorableOnClickListener(),
-									 this.getEditStorableCallback());
+        LayoutInflater theInflater = inflater;
+        if (theInflater == null)
+        {
+            theInflater = getLayoutInflater(savedInstanceState);
+        }
 
-		this.setListAdapter(this.adapter);
+        // Hook up adapter
+        this.adapter = new StorableArrayAdapter(ctx,
+                this.getTextViewResourceId(), this.items, theInflater,
+                this.getEditStorableOnClickListener(),
+                this.getEditStorableCallback());
 
-		// Populate the adapter
-		new DatastoreRetrieveTask(this.datastore, this.getStorableType(), this).execute();
-	}
+        this.setListAdapter(this.adapter);
 
-	public void onPostExecute(Collection<Storable> results)
-	{
-		this.adapter.clear();
-		this.adapter.addAll(results);
-		this.adapter.notifyDataSetChanged();
-	}
+        // Populate the adapter
+        new DatastoreRetrieveTask(this.datastore, this.clazz, this).execute();
+    }
 
-	// Should only be used for unit testing
-	protected void setDatastore(Datastore datastore) { this.datastore = datastore; }
+    public void onPostExecute(Collection<Storable> results)
+    {
+        this.adapter.clear();
+        this.adapter.addAll((Collection<T>) results);
+        this.adapter.notifyDataSetChanged();
+    }
 
-	/**
-	 * @return A datastore instance
-	 */
-	protected Datastore getDatastore() { return this.datastore; }
+    // Should only be used for unit testing
+    protected void setDatastore(Datastore datastore)
+    {
+        this.datastore = datastore;
+    }
 
-	/**
-	 * @return The adapter used by this activity.
-	 */
-	public StorableArrayAdapter getAdapter() { return this.adapter; }
+    /**
+     * @return A datastore instance
+     */
+    protected Datastore getDatastore()
+    {
+        return this.datastore;
+    }
 
-	/**
-	 * Gets the storable on click listener. A return value of null indicates that a default on
-	 * click listener will be created using the callback.
-	 */
-	protected abstract EditStorableOnClickListener getEditStorableOnClickListener();
+    /**
+     * @return The adapter used by this activity.
+     */
+    public StorableArrayAdapter<T> getAdapter()
+    {
+        return this.adapter;
+    }
 
-	/**
-	 * Callback to be used if no onclick listener for the edit button is defined. If this is not
-	 * defined then the edit feature will be disabled and the edit button will be hidden.
-	 */
-	protected abstract EditStorableCallback getEditStorableCallback();
+    /**
+     * Gets the storable on click listener. A return value of null indicates
+     * that a default on click listener will be created using the callback.
+     */
+    protected EditStorableOnClickListener getEditStorableOnClickListener()
+    {
+        return null;
+    };
 
-	/**
-	 * Get the storable type that will be used to populate the view with row entries
-	 */
-	protected abstract Class<? extends Storable> getStorableType();
-	
-	/**
-	 * Gets the Activity that will be launched when the Storable item's edit button is clicked
-	 */
-	protected abstract Class<? extends Activity> getEditStorableActivity();
+    /**
+     * Callback to be used if no onclick listener for the edit button is
+     * defined. If this is not defined then the edit feature will be disabled
+     * and the edit button will be hidden.
+     */
+    protected EditStorableCallback getEditStorableCallback()
+    {
+        return null;
+    };
 
-	/**
-	 * Gets the resource ID that will be used to inflate the ArrayAdapter
-	 */	
-	protected abstract int getTextViewResourceId();
+    /**
+     * Gets the Activity that will be launched when the Storable item's edit
+     * button is clicked
+     */
+    protected Class<? extends Activity> getEditStorableActivity()
+    {
+        return null;
+    };
+
+    /**
+     * Gets the resource ID that will be used to inflate the ArrayAdapter.
+     * Override to use a different resource
+     */
+    protected int getTextViewResourceId()
+    {
+        return android.R.id.list;
+    }
 }
