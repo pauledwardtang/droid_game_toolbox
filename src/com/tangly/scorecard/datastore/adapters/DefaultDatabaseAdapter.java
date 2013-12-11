@@ -1,4 +1,4 @@
-package com.tangly.scorecard.datastore;
+package com.tangly.scorecard.datastore.adapters;
 
 import android.database.sqlite.*;
 

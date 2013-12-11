@@ -13,7 +13,7 @@
         android:label="@string/app_name" >
         <activity
             android:label="@string/app_name"
-            android:name=".MainActivity" >
+            android:name=".activities.MainActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,8 +21,8 @@
         </activity>
 
         <activity android:name=".ApplicationContextProvider" />
-		<activity android:name=".EditGameSessionDialogFragment" />
-		<activity android:name=".ManagePlayersFragment" />
-		<activity android:name=".ManageDiceFragment" />
-	</application>
+        <activity android:name=".fragments.EditGameSessionDialogFragment" />
+        <activity android:name=".fragments.ManagePlayersFragment" />
+        <activity android:name=".fragments.ManageDiceFragment" />
+    </application>
 </manifest>

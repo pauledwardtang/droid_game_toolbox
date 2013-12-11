@@ -1,12 +1,15 @@
-package com.tangly.scorecard.datastore;
+package com.tangly.scorecard.datastore.adapters;
 
 import android.content.*;
 import android.database.sqlite.*;
 import android.database.sqlite.SQLiteDatabase.*;
 import android.util.*;
+
+import com.tangly.scorecard.datastore.DatastoreDefs;
 import com.tangly.scorecard.datastore.cursors.*;
 import com.tangly.scorecard.model.*;
 import com.tangly.scorecard.storage.*;
+
 import java.util.*;
 
 /**

@@ -1,4 +1,4 @@
-package com.tangly.scorecard.datastore;
+package com.tangly.scorecard.datastore.adapters;
 
 /**
  * Interface that defines the most basic of commands

@@ -5,6 +5,10 @@ import java.util.*;
 import android.database.sqlite.*;
 import android.util.*;
 
+import com.tangly.scorecard.datastore.adapters.DatabaseAdapter;
+import com.tangly.scorecard.datastore.adapters.DiceDatabaseAdapter;
+import com.tangly.scorecard.datastore.adapters.GameSessionDatabaseAdapter;
+import com.tangly.scorecard.datastore.adapters.PlayerDatabaseAdapter;
 import com.tangly.scorecard.model.*;
 import com.tangly.scorecard.storage.*;
 

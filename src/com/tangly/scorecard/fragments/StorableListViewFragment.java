@@ -1,4 +1,4 @@
-package com.tangly.scorecard;
+package com.tangly.scorecard.fragments;
 
 import android.app.Activity;
 import android.content.*;
@@ -6,6 +6,11 @@ import android.os.*;
 import android.support.v4.app.ListFragment;
 import android.view.*;
 
+import com.tangly.scorecard.DatastoreRetrieveTask;
+import com.tangly.scorecard.EditStorableCallback;
+import com.tangly.scorecard.EditStorableOnClickListener;
+import com.tangly.scorecard.StorableArrayAdapter;
+import com.tangly.scorecard.DatastoreRetrieveTask.PostExecuteListener;
 import com.tangly.scorecard.datastore.*;
 import com.tangly.scorecard.storage.*;
 

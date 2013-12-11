@@ -1,4 +1,15 @@
-package com.tangly.scorecard;
+package com.tangly.scorecard.activities;
+
+import com.tangly.scorecard.ListAction;
+import com.tangly.scorecard.R;
+import com.tangly.scorecard.R.drawable;
+import com.tangly.scorecard.R.id;
+import com.tangly.scorecard.R.layout;
+import com.tangly.scorecard.R.menu;
+import com.tangly.scorecard.R.string;
+import com.tangly.scorecard.fragments.ManageDiceFragment;
+import com.tangly.scorecard.fragments.ManageGamesFragment;
+import com.tangly.scorecard.fragments.ManagePlayersFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;

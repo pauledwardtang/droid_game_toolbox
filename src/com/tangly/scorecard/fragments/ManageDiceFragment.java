@@ -1,4 +1,4 @@
-package com.tangly.scorecard;
+package com.tangly.scorecard.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +11,10 @@ import android.widget.Button;
 
 import com.tangly.framework.dialogs.EditDiceDialogFragment;
 import com.tangly.framework.dialogs.NoticeDialogFragment;
+import com.tangly.scorecard.EditStorableCallback;
+import com.tangly.scorecard.R;
+import com.tangly.scorecard.R.id;
+import com.tangly.scorecard.R.layout;
 import com.tangly.scorecard.datastore.DatastoreDefs;
 import com.tangly.scorecard.model.Dice;
 

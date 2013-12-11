@@ -4,7 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.*;
 import android.database.sqlite.*;
 import android.util.*;
+
 import java.util.*;
+
+import com.tangly.scorecard.datastore.adapters.DiceDatabaseAdapter;
+import com.tangly.scorecard.datastore.adapters.GameSessionDatabaseAdapter;
+import com.tangly.scorecard.datastore.adapters.PlayerDatabaseAdapter;
 
 public class AppDbHelper extends SQLiteOpenHelper
 {

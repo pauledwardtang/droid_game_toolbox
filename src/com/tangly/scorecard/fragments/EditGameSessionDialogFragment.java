@@ -1,4 +1,4 @@
-package com.tangly.scorecard;
+package com.tangly.scorecard.fragments;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +23,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.tangly.framework.dialogs.NoticeDialogFragment;
+import com.tangly.scorecard.DatastoreRetrieveTask;
+import com.tangly.scorecard.R;
+import com.tangly.scorecard.StorableArrayAdapter;
+import com.tangly.scorecard.DatastoreRetrieveTask.PostExecuteListener;
+import com.tangly.scorecard.R.id;
+import com.tangly.scorecard.R.layout;
 import com.tangly.scorecard.datastore.Datastore;
 import com.tangly.scorecard.datastore.DatastoreManager;
 import com.tangly.scorecard.model.GameSession;
