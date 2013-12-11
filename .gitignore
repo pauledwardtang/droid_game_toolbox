@@ -1,6 +1,7 @@
 /bin
 /gen
 /obj
+/target
 /libs/*/*.so
 *.class
 *.dex

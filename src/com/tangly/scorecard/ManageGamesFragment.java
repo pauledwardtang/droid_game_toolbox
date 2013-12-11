@@ -34,7 +34,8 @@ public class ManageGamesFragment extends StorableListViewFragment<GameSession>
         View view = inflater.inflate(R.layout.manage_model, null);
 
         Button addGamesBtn = (Button) view.findViewById(R.id.addBtn);
-        addGamesBtn.setOnClickListener(new OnClickListener() {
+        addGamesBtn.setOnClickListener(new OnClickListener()
+        {
             public void onClick(View p1)
             {
                 callback = new EditCallback();
@@ -72,7 +73,8 @@ public class ManageGamesFragment extends StorableListViewFragment<GameSession>
 
             Bundle argsBundle = new Bundle();
             argsBundle.putLong(EditGameSessionDialogFragment.BUNDLE_GS_ID, this.gs.getId());
-            argsBundle.putString(EditGameSessionDialogFragment.BUNDLE_GS_NAME, this.gs.getDisplayName());
+            argsBundle.putString(EditGameSessionDialogFragment.BUNDLE_GS_NAME,
+                    this.gs.getDisplayName());
             long[] playerIds = new long[this.gs.getPlayers().size()];
             for (int i = 0; i < this.gs.getPlayers().size(); i++)
             {

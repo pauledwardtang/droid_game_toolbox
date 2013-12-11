@@ -32,7 +32,8 @@ public class ManagePlayersFragment extends StorableListViewFragment<Player>
         View view = inflater.inflate(R.layout.manage_model, null);
 
         Button addDiceBtn = (Button) view.findViewById(R.id.addBtn);
-        addDiceBtn.setOnClickListener(new OnClickListener() {
+        addDiceBtn.setOnClickListener(new OnClickListener()
+        {
             public void onClick(View p1)
             {
                 callback = new EditCallback();
@@ -45,7 +46,8 @@ public class ManagePlayersFragment extends StorableListViewFragment<Player>
         return view;
     }
 
-    protected class EditCallback implements EditStorableCallback, NoticeDialogFragment.NoticeDialogListener
+    protected class EditCallback implements EditStorableCallback,
+            NoticeDialogFragment.NoticeDialogListener
     {
         protected Storable storable;
 

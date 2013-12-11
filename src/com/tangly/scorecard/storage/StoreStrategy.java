@@ -4,15 +4,15 @@ package com.tangly.scorecard.storage;
 // TODO add javadoc
 public interface StoreStrategy
 {
-	/**
-	 * @param s Storable to commit
-	 */
-	public void commit(Storable s);
-	
+    /**
+     * @param s
+     *            Storable to commit
+     */
+    public void commit(Storable s);
 
-	/**
-	 * @param s Storable to retrieve
-	 */
-	public Storable retrieve(int id);
+    /**
+     * @param s
+     *            Storable to retrieve
+     */
+    public Storable retrieve(int id);
 }
-

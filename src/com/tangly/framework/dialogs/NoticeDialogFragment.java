@@ -6,54 +6,57 @@ import android.content.*;
 
 public class NoticeDialogFragment extends DialogFragment
 {
-	// Use this instance of the interface to deliver action events
-	protected NoticeDialogListener mListener; 
+    // Use this instance of the interface to deliver action events
+    protected NoticeDialogListener mListener;
 
-	/* The activity that creates an instance of this dialog fragment must
-	 * implement this interface in order to receive event callbacks.
-	 * Each method passes the DialogFragment in case the host needs to query it.
-	 */
-	public interface NoticeDialogListener
-	{
-		public void onDialogPositiveClick(DialogFragment dialog);
-		public void onDialogNegativeClick(DialogFragment dialog);
-	}
+    /*
+     * The activity that creates an instance of this dialog fragment must
+     * implement this interface in order to receive event callbacks. Each method
+     * passes the DialogFragment in case the host needs to query it.
+     */
+    public interface NoticeDialogListener
+    {
+        public void onDialogPositiveClick(DialogFragment dialog);
 
-	// Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
-	@Override
-	public void onAttach(Activity activity)
-	{
-		super.onAttach(activity);
-		
-		if (this.getMListener() == null)
-		{
-			throw new IllegalStateException("Listener must be attached to this Fragment");
-		}
-	}
+        public void onDialogNegativeClick(DialogFragment dialog);
+    }
 
-	public class PositiveButtonDialogOnClickListener implements DialogInterface.OnClickListener
-	{
-		public void onClick(DialogInterface dialog, int id)
-		{
-			mListener.onDialogPositiveClick(NoticeDialogFragment.this);
-		}
-	}
+    // Override the Fragment.onAttach() method to instantiate the
+    // NoticeDialogListener
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
 
-	public class NegativeButtonDialogOnClickListener implements DialogInterface.OnClickListener
-	{
-		public void onClick(DialogInterface dialog, int id)
-		{
-			mListener.onDialogNegativeClick(NoticeDialogFragment.this);
-		}
-	}
+        if (this.getMListener() == null)
+        {
+            throw new IllegalStateException("Listener must be attached to this Fragment");
+        }
+    }
 
-	public void setMListener(NoticeDialogListener mListener)
-	{
-		this.mListener = mListener;
-	}
+    public class PositiveButtonDialogOnClickListener implements DialogInterface.OnClickListener
+    {
+        public void onClick(DialogInterface dialog, int id)
+        {
+            mListener.onDialogPositiveClick(NoticeDialogFragment.this);
+        }
+    }
 
-	public NoticeDialogListener getMListener()
-	{
-		return mListener;
-	}
+    public class NegativeButtonDialogOnClickListener implements DialogInterface.OnClickListener
+    {
+        public void onClick(DialogInterface dialog, int id)
+        {
+            mListener.onDialogNegativeClick(NoticeDialogFragment.this);
+        }
+    }
+
+    public void setMListener(NoticeDialogListener mListener)
+    {
+        this.mListener = mListener;
+    }
+
+    public NoticeDialogListener getMListener()
+    {
+        return mListener;
+    }
 }
