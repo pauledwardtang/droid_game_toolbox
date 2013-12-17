@@ -18,8 +18,11 @@ import com.tangly.scorecard.R.layout;
 import com.tangly.scorecard.datastore.DatastoreDefs;
 import com.tangly.scorecard.model.Dice;
 
-// TODO make yet another base class and specify the class name through the
-// intent?!
+/**
+ * Fragment for managing Dice
+ * @author Paul
+ *
+ */
 public class ManageDiceFragment extends StorableListViewFragment<Dice>
 {
     private static final String TAG = "DiceManager";
@@ -55,6 +58,7 @@ public class ManageDiceFragment extends StorableListViewFragment<Dice>
             NoticeDialogFragment.NoticeDialogListener
     {
         protected Dice dice;
+        boolean isFromStorage = false;
 
         /**
          * Creates an EditDiceDialogFragment without specifying any arguments in
@@ -63,16 +67,19 @@ public class ManageDiceFragment extends StorableListViewFragment<Dice>
         public void addStorable()
         {
             dice = new Dice();
-            EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
-            newFragment.setMListener(EditCallback.this);
-            newFragment.show(getFragmentManager(), "diceEdit");
+            this.showDiceDialog(dice);
         }
 
         public void editStorable(long id)
         {
             // Get reference to the storable that will be used
             dice = (Dice) getItemById(id);
+            this.isFromStorage = true;
+            this.showDiceDialog(dice);
+        }
 
+        private void showDiceDialog(Dice dice)
+        {
             EditDiceDialogFragment newFragment = new EditDiceDialogFragment();
             Bundle argsBundle = new Bundle();
             argsBundle.putString(EditDiceDialogFragment.BUNDLE_DICE_NAME, dice.getDisplayName());
@@ -92,7 +99,7 @@ public class ManageDiceFragment extends StorableListViewFragment<Dice>
             Dice updatedDice = fragment.getDice();
 
             // Update the underlying model if there are changes
-            if (this.dice.compareTo(updatedDice) != 0)
+            if (!this.isFromStorage || this.dice.compareTo(updatedDice) != 0)
             {
                 // New dice if the ID is an invalid ID
                 boolean newDie = (this.dice.getId() == DatastoreDefs.INVALID_ID);
